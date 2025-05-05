@@ -5,7 +5,7 @@ import WaitlistForm from "@/components/WaitlistForm";
 
 const Home = () => {
   return (
-    <main className="flex flex-col items-center justify-center h-screen gap-8 max-w-lg mx-auto">
+    <main className="flex px-4 flex-col items-center justify-center h-screen gap-8 max-w-lg mx-auto">
       <div className="flex flex-col gap-3">
         <section className="flex justify-start items-center gap-2.5">
           <BeaconIcon className="text-black dark:text-white size-6" />

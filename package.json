@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "check": "tsc --noEmit",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -32,6 +33,6 @@
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.2.8",
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   }
 }
