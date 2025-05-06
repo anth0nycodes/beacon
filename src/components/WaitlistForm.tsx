@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   FormField,
@@ -12,24 +12,36 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { WaitlistSchema, waitlistSchema } from "@/schemas/waitlist-schema";
+import { LoaderCircle } from "lucide-react";
 
 const WaitlistForm = () => {
-  const schema = z.object({
-    email: z.string().email().min(1, {
-      message: "Please enter a valid email address.",
-    }),
-  });
-
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<WaitlistSchema>({
+    resolver: zodResolver(waitlistSchema),
     defaultValues: { email: "" },
     mode: "onSubmit",
   });
 
-  const onSubmit = (data: { email: string }) => {
-    // TODO: handle waitlist submission
-    // e.g., send to API or show a toast
+  const { reset } = form;
+  const [sent, setSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (data: WaitlistSchema) => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/contacts", {
+        method: "POST",
+        body: JSON.stringify({ email: data.email }),
+      });
+      if (res.ok) {
+        setSent(true);
+      }
+    } catch (error) {
+      console.error("Error submitting waitlist email: ", error);
+    } finally {
+      setIsLoading(false);
+      reset();
+    }
     console.log("Waitlist email submitted:", data.email);
   };
 
@@ -58,12 +70,25 @@ const WaitlistForm = () => {
                   />
                 </FormControl>
                 <FormMessage className="mt-2" />
+                {sent && (
+                  <p className="mt-2 text-sm text-green-500">
+                    Successfully joined waitlist! It might take a minute to
+                    reach your inbox.
+                  </p>
+                )}
               </div>
               <Button
                 type="submit"
+                disabled={isLoading}
                 className="rounded-md bg-black dark:bg-white text-white dark:text-black px-6 py-2 font-semibold text-base transition hover:bg-gray-800 dark:hover:bg-gray-200"
               >
-                Join Waitlist
+                {isLoading ? (
+                  <div className="w-full flex items-center justify-center">
+                    <LoaderCircle className="w-4 h-4 animate-spin" />
+                  </div>
+                ) : (
+                  "Join Waitlist"
+                )}
               </Button>
             </FormItem>
           )}
