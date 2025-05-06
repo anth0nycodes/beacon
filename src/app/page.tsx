@@ -2,6 +2,28 @@ import { BeaconIcon } from "@/svgs/project-icons";
 import React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import WaitlistForm from "@/components/WaitlistForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Beacon - AI-Powered Code Comprehension",
+  description:
+    "Understand large codebases instantly. Beacon analyzes your code, shows you what each file does, and helps you learn, search, and chat with your code.",
+  openGraph: {
+    title: "Beacon - AI-Powered Code Comprehension",
+    description:
+      "Understand large codebases instantly. Beacon analyzes your code, shows you what each file does, and helps you learn, search, and chat with your code.",
+    type: "website",
+    url: "https://www.trybeacon.app",
+    images: [
+      {
+        url: "/assets/banner.png",
+        width: 1200,
+        height: 630,
+        alt: "Beacon - AI-Powered Code Comprehension",
+      },
+    ],
+  },
+};
 
 const Home = () => {
   return (
