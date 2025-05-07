@@ -26,9 +26,9 @@ const DesktopNavbar = () => {
         <NavigationMenu>
           <NavigationMenuList className="gap-2">
             <NavigationMenuItem>
-              <Link className={navigationMenuTriggerStyle()} href="/pricing">
-                Pricing
-              </Link>
+              <Button asChild variant="ghost">
+                <Link href="/pricing">Pricing</Link>
+              </Button>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Button asChild>
