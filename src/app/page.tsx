@@ -43,7 +43,7 @@ const Home = () => {
             quizzes.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Download the extension for your IDE, and unlock instant
+            Connect your GitHub, upload any repo, and unlock instant
             understanding.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
