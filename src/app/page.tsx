@@ -38,18 +38,19 @@ const Home = () => {
             Large and complicated codebases? No problem.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Beacon analyzes your codebase, shows you what each file does, and
-            helps you learn, search, and chat with your code.
+            Beacon lets you search, explore, and chat with your codebase while
+            answering your questions, and helps you learn through interactive
+            quizzes.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Connect your GitHub, upload any repo, and unlock instant
+            Download the extension for your IDE, and unlock instant
             understanding.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
             No more getting lost—just clear, AI-powered code comprehension.
           </p>
           <p className="text-base text-gray-900 dark:text-white font-medium">
-            A super early version is coming soon.
+            A version of Beacon is coming soon within the next few months.
             <br />
             Interested? Stay tuned and join the waitlist.
           </p>
