@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { WaitlistSchema, waitlistSchema } from "@/schemas/waitlist-schema";
 import { LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const WaitlistForm = () => {
   const form = useForm<WaitlistSchema>({
@@ -23,7 +24,6 @@ const WaitlistForm = () => {
   });
 
   const { reset } = form;
-  const [sent, setSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: WaitlistSchema) => {
@@ -33,16 +33,20 @@ const WaitlistForm = () => {
         method: "POST",
         body: JSON.stringify({ email: data.email }),
       });
+
       if (res.ok) {
-        setSent(true);
+        toast.success(
+          "Successfully joined waitlist! It might take a minute to reach your inbox."
+        );
+      } else {
+        toast.error("Something went wrong. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting waitlist email: ", error);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
       reset();
     }
-    console.log("Waitlist email submitted:", data.email);
   };
 
   return (
@@ -70,12 +74,6 @@ const WaitlistForm = () => {
                   />
                 </FormControl>
                 <FormMessage className="mt-2" />
-                {sent && (
-                  <p className="mt-2 text-sm text-green-500">
-                    Successfully joined waitlist! It might take a minute to
-                    reach your inbox.
-                  </p>
-                )}
               </div>
               <Button
                 type="submit"
@@ -83,7 +81,7 @@ const WaitlistForm = () => {
                 className="rounded-md bg-black dark:bg-white text-white dark:text-black px-6 py-2 font-semibold text-base transition hover:bg-gray-800 dark:hover:bg-gray-200"
               >
                 {isLoading ? (
-                  <div className="w-full flex items-center justify-center">
+                  <div className="flex items-center justify-center w-full">
                     <LoaderCircle className="w-4 h-4 animate-spin" />
                   </div>
                 ) : (
