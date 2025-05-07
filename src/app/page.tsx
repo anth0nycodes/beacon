@@ -3,6 +3,7 @@ import React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import WaitlistForm from "@/components/WaitlistForm";
 import { Metadata } from "next";
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "Beacon - AI-Powered Code Comprehension",
@@ -26,6 +27,15 @@ export const metadata: Metadata = {
 };
 
 const Home = () => {
+  if (process.env.FLAG_SHOW_PRODUCTION_PAGE !== "true") {
+    return <Waitlist />;
+  }
+  return <Navbar />;
+};
+
+export default Home;
+
+const Waitlist = () => {
   return (
     <main className="flex px-4 flex-col items-center justify-center h-screen gap-8 max-w-lg mx-auto">
       <div className="flex flex-col gap-3">
@@ -66,5 +76,3 @@ const Home = () => {
     </main>
   );
 };
-
-export default Home;
