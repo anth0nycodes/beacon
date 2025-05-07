@@ -26,6 +26,15 @@ export const metadata: Metadata = {
 };
 
 const Home = () => {
+  if (process.env.FLAG_SHOW_PRODUCTION_PAGE !== "true") {
+    return <Waitlist />;
+  }
+  return <main>Hello</main>;
+};
+
+export default Home;
+
+const Waitlist = () => {
   return (
     <main className="flex px-4 flex-col items-center justify-center h-screen gap-8 max-w-lg mx-auto">
       <div className="flex flex-col gap-3">
@@ -66,5 +75,3 @@ const Home = () => {
     </main>
   );
 };
-
-export default Home;
