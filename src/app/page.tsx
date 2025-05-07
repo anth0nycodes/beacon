@@ -3,7 +3,6 @@ import React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import WaitlistForm from "@/components/WaitlistForm";
 import { Metadata } from "next";
-import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "Beacon - AI-Powered Code Comprehension",
@@ -30,7 +29,7 @@ const Home = () => {
   if (process.env.FLAG_SHOW_PRODUCTION_PAGE !== "true") {
     return <Waitlist />;
   }
-  return <Navbar />;
+  return <main>Hello</main>;
 };
 
 export default Home;

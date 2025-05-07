@@ -4,7 +4,7 @@ import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import { BeaconIcon } from "@/svgs/project-icons";
 
-const Navbar = async () => {
+export const Navbar = async () => {
   return (
     <nav className="sticky top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <div className="max-w-7xl mx-auto px-4">
@@ -26,5 +26,3 @@ const Navbar = async () => {
     </nav>
   );
 };
-
-export default Navbar;
