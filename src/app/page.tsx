@@ -5,6 +5,7 @@ import WaitlistForm from "@/components/WaitlistForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.trybeacon.app"),
   title: "Beacon - AI-Powered Code Comprehension",
   description:
     "Understand large codebases instantly. Beacon analyzes your code, shows you what each file does, and helps you learn, search, and chat with your code.",

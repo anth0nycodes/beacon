@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Reduce the number of pages that get pre-rendered
+  output: 'standalone',
 };
 
 export default nextConfig;
