@@ -1,19 +1,8 @@
-import { type NextRequest, NextResponse } from "next/server";
-import { updateSession } from "@/utils/supabase/middleware";
+import { type NextRequest } from 'next/server'
+import { updateSession } from '@/utils/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  const response = await updateSession(request);
-  const isProd = process.env.NODE_ENV === "production";
-  const showProd = process.env.FLAG_SHOW_PRODUCTION_PAGE === "true";
-  const hideProd = process.env.FLAG_SHOW_PRODUCTION_PAGE === "false";
-  const { pathname } = request.nextUrl;
-
-  // In production, if flag is false, only allow public routes
-  if (isProd && hideProd && pathname !== "/") {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
-  return response;
+  return await updateSession(request)
 }
 
 export const config = {
@@ -25,6 +14,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
-};
+}
