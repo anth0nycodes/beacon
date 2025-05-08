@@ -16,9 +16,12 @@ export function useAuth() {
         const { data, error } = await supabase.auth.getUser()
         if (!error && data.user) {
           setUser(data.user)
+        } else {
+          setUser(null)
         }
       } catch (error) {
         console.error("Error getting initial user:", error)
+        setUser(null)
       } finally {
         setLoading(false)
       }
@@ -29,7 +32,11 @@ export function useAuth() {
     // Set up auth state change listener
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        setUser(session?.user || null)
+        if (event === 'SIGNED_OUT') {
+          setUser(null)
+        } else {
+          setUser(session?.user || null)
+        }
         setLoading(false)
       }
     )
@@ -38,7 +45,7 @@ export function useAuth() {
     return () => {
       authListener?.subscription.unsubscribe()
     }
-  }, [supabase, user])
+  }, [user])
 
   return {
     user,
