@@ -1,8 +1,23 @@
-import { type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
+// Make sure to update this array as you add more routes
+const PUBLIC_ROUTES = ["/", "/login", "/dashboard"];
+
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  const response = await updateSession(request);
+  const isProd = process.env.NODE_ENV === "production";
+  const showProd = process.env.FLAG_SHOW_PRODUCTION_PAGE === "true";
+  const { pathname } = request.nextUrl;
+
+  // In production, if flag is false, only allow public routes
+  if (isProd && !showProd) {
+    if (!PUBLIC_ROUTES.includes(pathname)) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  return response;
 }
 
 export const config = {
