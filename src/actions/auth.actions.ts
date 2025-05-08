@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { Provider } from "@supabase/supabase-js";
+import { getURL } from "@/utils/helpers";
 
 export const logout = async () => {
   const supabase = await createClient();
@@ -18,10 +19,7 @@ export const oAuthLogin = async (provider: Provider) => {
   const supabase = await createClient();
 
   // Define the redirect URL based on the environment
-  const redirectUrl =
-    process.env.NODE_ENV === 'production'
-      ? 'https://trybeacon.app/api/auth/callback'
-      : 'http://localhost:3000/api/auth/callback';
+  const redirectUrl = getURL("/api/auth/callback");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
