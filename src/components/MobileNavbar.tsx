@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  MenuIcon,
-  YoutubeIcon,
-  BookOpenIcon,
-  ScrollTextIcon,
-} from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -20,9 +13,11 @@ import {
 import { useState } from "react";
 import Link from "next/link";
 import { BeaconIcon } from "@/svgs/project-icons";
+import { useAuth } from "@/hooks/use-auth";
 
 const MobileNavbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { user } = useAuth();
 
   return (
     <div className="flex font-secondary md:hidden items-center">
@@ -68,13 +63,26 @@ const MobileNavbar = () => {
             </nav>
 
             <div className="p-4 mt-auto">
-              <Button
-                className="w-full"
-                onClick={() => setShowMobileMenu(false)}
-                asChild
-              >
-                <Link href="/login">Get started</Link>
-              </Button>
+              {user ? (
+                <div className="space-y-2">
+                  <Link href="/dashboard" className="w-full block">
+                    <Button
+                      className="w-full"
+                      onClick={() => setShowMobileMenu(false)}
+                    >
+                      Dashboard
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <Button
+                  className="w-full"
+                  onClick={() => setShowMobileMenu(false)}
+                  asChild
+                >
+                  <Link href="/login">Get started</Link>
+                </Button>
+              )}
             </div>
           </div>
         </SheetContent>
