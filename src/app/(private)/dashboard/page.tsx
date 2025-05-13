@@ -14,9 +14,11 @@ const page = async () => {
     redirect("/login");
   }
 
+  const displayName = user.user_metadata?.full_name.split(" ")[0];
+
   return (
     <main>
-      <h1>Hello {user?.user_metadata?.user_name}</h1>
+      <h1>Hello {displayName}</h1>
       <Button onClick={logout}>Logout</Button>
     </main>
   );
