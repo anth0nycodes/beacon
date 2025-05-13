@@ -57,7 +57,9 @@ export function AppSidebar() {
           name: user.user_metadata?.name || user.user_metadata?.full_name,
           email: user.email,
           avatar_url:
-            user.user_metadata?.avatar_url || user.user_metadata?.picture,
+            user.user_metadata?.avatar_url ||
+            user.user_metadata?.picture ||
+            user.user_metadata?.avatar,
         };
 
         setUserMeta(metadata);
