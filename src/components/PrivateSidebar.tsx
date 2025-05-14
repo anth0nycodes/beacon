@@ -1,7 +1,11 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/ui/app-sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/ui/app-sidebar";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function PrivateSidebar({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -10,5 +14,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
     </SidebarProvider>
-  )
+  );
 }

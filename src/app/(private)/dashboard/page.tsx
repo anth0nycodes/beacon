@@ -10,16 +10,11 @@ const page = async () => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
-
-  const displayName = user.user_metadata?.full_name.split(" ")[0];
+  const displayName = user?.user_metadata?.full_name.split(" ")[0];
 
   return (
     <main>
       <h1>Hello {displayName}</h1>
-      <Button onClick={logout}>Logout</Button>
     </main>
   );
 };
