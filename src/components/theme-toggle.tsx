@@ -3,42 +3,59 @@
 import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Switch } from "@/components/ui/switch";
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+  const handleThemeChange = (checked: boolean) => {
+    const newTheme = checked ? "dark" : "light";
+    setTheme(newTheme);
   };
 
   if (!mounted) {
     return (
-      <Button className="size-6" variant="outline" size="icon" disabled>
-        <Sun className="size-3.5" />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
+      <div className="flex items-center justify-between space-x-2">
+        <div className="w-full flex items-center gap-1">
+          <Sun className="size-4 mr-2" />
+          <span className="text-base">Light</span>
+        </div>
+        <Switch
+          id="theme-mode"
+          checked={false}
+          className="transition-all duration-200 ease-in-out"
+        />
+      </div>
     );
   }
 
   return (
-    <Button
-      className="size-6"
-      variant="outline"
-      size="icon"
-      onClick={toggleTheme}
-    >
-      <Sun className="size-3.5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute size-3.5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <div className="flex items-center justify-between space-x-2 transition-colors duration-200">
+      <div className="w-full flex items-center gap-1">
+        {theme === "light" ? (
+          <>
+            <Sun className="size-4 transition-transform mr-2 duration-200" />
+            <span className="text-base">Light</span>
+          </>
+        ) : (
+          <>
+            <Moon className="size-4 transition-transform mr-2 duration-200" />
+            <span className="text-base">Dark</span>
+          </>
+        )}
+      </div>
+      <Switch
+        id="theme-mode"
+        checked={theme === "dark"}
+        onCheckedChange={handleThemeChange}
+        className="transition-all duration-200 ease-in-out"
+      />
+    </div>
   );
 }
