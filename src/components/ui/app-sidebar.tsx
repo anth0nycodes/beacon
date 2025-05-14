@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home, ChevronsUpDown } from "lucide-react";
+import { Home, ChevronsUpDown, SettingsIcon, LogOutIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
@@ -23,6 +23,9 @@ import { createClient } from "@/utils/supabase/client";
 import { Button } from "./button";
 import { logout } from "@/actions/auth.actions";
 import { BeaconIcon } from "@/svgs/project-icons";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { ThemeToggle } from "../theme-toggle";
+import { Separator } from "./separator";
 
 const supabase = createClient();
 
@@ -140,52 +143,62 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* User Profile Section at bottom of sidebar */}
-        <div className="mt-auto">
-          <div className="rounded-lg hover:bg-primary/10 py-3 duration-100">
-            <SidebarMenuButton className="w-full cursor-pointer">
-              <div className="flex items-center justify-between w-full">
-                {isLoading ? (
-                  <Skeleton className="h-8 w-8 rounded-full" />
-                ) : (
-                  <Avatar className="border border-gray-500 h-8 w-8">
-                    <AvatarImage src={avatarUrl || ""} />
-                    <AvatarFallback className="bg-primary text-white">
-                      {nameInitial}
-                    </AvatarFallback>
-                  </Avatar>
-                )}
-                <div className="flex flex-col flex-grow text-left max-w-[140px]">
+        <Popover>
+          <div className="mt-auto mb-2">
+            <div className="rounded-lg duration-100">
+              <PopoverTrigger className="w-full rounded-lg h-12 transition-colors hover:bg-primary/10 data-[state=open]:bg-primary/10 cursor-pointer">
+                <div className="flex items-center justify-evenly md:justify-around w-full">
                   {isLoading ? (
-                    <>
-                      <Skeleton className="h-4 w-24 mb-1" />
-                      <Skeleton className="h-3 w-32" />
-                    </>
+                    <Skeleton className="h-8 w-8 rounded-full" />
                   ) : (
-                    <>
-                      <span className="text-sm font-medium text-gray-700 truncate overflow-hidden text-ellipsis">
-                        {displayName}
-                      </span>
-                      <span className="text-xs text-gray-500 truncate overflow-hidden text-ellipsis">
-                        {displayEmail}
-                      </span>
-                    </>
+                    <Avatar className="border border-gray-500 h-8 w-8">
+                      <AvatarImage src={avatarUrl || ""} />
+                      <AvatarFallback className="bg-primary text-white">
+                        {nameInitial}
+                      </AvatarFallback>
+                    </Avatar>
                   )}
+                  <div className="flex flex-col flex-grow text-left max-w-[140px]">
+                    {isLoading ? (
+                      <>
+                        <Skeleton className="h-4 w-24 mb-1" />
+                        <Skeleton className="h-3 w-32" />
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-sm font-medium text-foreground truncate overflow-hidden text-ellipsis">
+                          {displayName}
+                        </span>
+                        <span className="text-xs text-foreground/50 truncate overflow-hidden text-ellipsis">
+                          {displayEmail}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <ChevronsUpDown className="h-4 w-4 text-gray-500" />
                 </div>
-                <ChevronsUpDown className="h-4 w-4 text-gray-500" />
-              </div>
-            </SidebarMenuButton>
+              </PopoverTrigger>
+            </div>
           </div>
-        </div>
-
-        <div className="mt-2">
-          {isLoading ? (
-            <Skeleton className="h-9 w-full" />
-          ) : (
-            <Button variant="outline" onClick={logout} className="w-full">
-              Logout
-            </Button>
-          )}
-        </div>
+          <PopoverContent
+            className="w-[272px] md:w-59.5"
+            side="top"
+            align="start"
+          >
+            <div className="flex flex-col gap-4">
+              <Link href="/settings" className="w-full flex items-center gap-1">
+                <SettingsIcon className="size-4 mr-2" />
+                Settings
+              </Link>
+              <ThemeToggle />
+              <Separator className="" />
+              <Button variant="outline" onClick={logout} className="w-full">
+                <LogOutIcon className="size-4" />
+                Logout
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </SidebarContent>
     </Sidebar>
   );
