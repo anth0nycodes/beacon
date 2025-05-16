@@ -35,8 +35,8 @@ const DesktopNavbar = async () => {
             </NavigationMenuItem>
             <NavigationMenuItem>
               {user ? (
-                <Link href="/dashboard">
-                  <Button>Dashboard</Button>
+                <Link href="/revision-sets">
+                  <Button>Revise</Button>
                 </Link>
               ) : (
                 <Link href="/login">

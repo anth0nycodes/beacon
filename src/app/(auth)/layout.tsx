@@ -7,7 +7,7 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
     data: { user },
   } = await supabase.auth.getUser();
   if (user) {
-    redirect("/dashboard");
+    redirect("/revision-sets");
   }
   return (
     <div>
