@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home, ChevronsUpDown, SettingsIcon, LogOutIcon } from "lucide-react";
+import {
+  ChevronsUpDown,
+  SettingsIcon,
+  LogOutIcon,
+  BookOpenCheck,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
@@ -31,9 +36,9 @@ const supabase = createClient();
 
 const items = [
   {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: Home,
+    title: "Revision Sets",
+    url: "/revision-sets",
+    icon: BookOpenCheck,
   },
 ];
 

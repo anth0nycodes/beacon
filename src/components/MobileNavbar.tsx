@@ -65,12 +65,12 @@ const MobileNavbar = () => {
             <div className="p-4 mt-auto">
               {user ? (
                 <div className="space-y-2">
-                  <Link href="/dashboard" className="w-full block">
+                  <Link href="/revision-sets" className="w-full block">
                     <Button
                       className="w-full"
                       onClick={() => setShowMobileMenu(false)}
                     >
-                      Dashboard
+                      Revise
                     </Button>
                   </Link>
                 </div>
