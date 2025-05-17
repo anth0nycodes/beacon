@@ -7,9 +7,154 @@ export type Json =
   | Json[]
 
 export type Database = {
-  public: {
+  graphql_public: {
     Tables: {
       [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+  public: {
+    Tables: {
+      documents: {
+        Row: {
+          content_structure: Json | null
+          created_at: string
+          file_size: number | null
+          id: string
+          important_terms: Json[] | null
+          last_processed_at: string | null
+          metadata: Json | null
+          original_filename: string | null
+          processed_content: string | null
+          storage_path: string | null
+          study_set_id: string
+        }
+        Insert: {
+          content_structure?: Json | null
+          created_at?: string
+          file_size?: number | null
+          id?: string
+          important_terms?: Json[] | null
+          last_processed_at?: string | null
+          metadata?: Json | null
+          original_filename?: string | null
+          processed_content?: string | null
+          storage_path?: string | null
+          study_set_id: string
+        }
+        Update: {
+          content_structure?: Json | null
+          created_at?: string
+          file_size?: number | null
+          id?: string
+          important_terms?: Json[] | null
+          last_processed_at?: string | null
+          metadata?: Json | null
+          original_filename?: string | null
+          processed_content?: string | null
+          storage_path?: string | null
+          study_set_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_study_set_id_fkey"
+            columns: ["study_set_id"]
+            isOneToOne: false
+            referencedRelation: "study_sets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flashcards: {
+        Row: {
+          answer: string
+          confidence_score: number | null
+          created_at: string
+          id: string
+          last_reviewed: string | null
+          question: string
+          study_set_id: string
+        }
+        Insert: {
+          answer: string
+          confidence_score?: number | null
+          created_at?: string
+          id?: string
+          last_reviewed?: string | null
+          question: string
+          study_set_id: string
+        }
+        Update: {
+          answer?: string
+          confidence_score?: number | null
+          created_at?: string
+          id?: string
+          last_reviewed?: string | null
+          question?: string
+          study_set_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcards_study_set_id_fkey"
+            columns: ["study_set_id"]
+            isOneToOne: false
+            referencedRelation: "study_sets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_sets: {
+        Row: {
+          content_type: Database["public"]["Enums"]["content_type"]
+          created_at: string
+          description: string | null
+          id: string
+          status: Database["public"]["Enums"]["processing_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content_type: Database["public"]["Enums"]["content_type"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["processing_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content_type?: Database["public"]["Enums"]["content_type"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["processing_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +163,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      content_type: "pdf" | "docx" | "text" | "url" | "youtube"
+      processing_status: "processing" | "ready" | "error"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -132,7 +278,13 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  public: {
+  graphql_public: {
     Enums: {},
+  },
+  public: {
+    Enums: {
+      content_type: ["pdf", "docx", "text", "url", "youtube"],
+      processing_status: ["processing", "ready", "error"],
+    },
   },
 } as const
