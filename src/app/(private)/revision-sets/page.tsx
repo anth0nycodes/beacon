@@ -1,8 +1,5 @@
 import React from "react";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
-import { logout } from "@/actions/auth.actions";
-import { Button } from "@/components/ui/button";
 
 const page = async () => {
   const supabase = await createClient();
