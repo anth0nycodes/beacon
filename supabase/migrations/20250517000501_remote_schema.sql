@@ -2,7 +2,6 @@
 CREATE TYPE content_type AS ENUM (
     'pdf',
     'docx',
-    'pptx',
     'text',
     'url',
     'youtube'
