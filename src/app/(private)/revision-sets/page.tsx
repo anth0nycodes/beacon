@@ -1,18 +1,21 @@
 import React from "react";
-import { createClient } from "@/utils/supabase/server";
+import UploadOptions from "./components/upload-options";
 
-const page = async () => {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const displayName = user?.user_metadata?.full_name.split(" ")[0];
-
+const RevisionSetsPage = () => {
   return (
-    <main>
-      <h1>Hello {displayName}</h1>
+    <main className="py-8 px-6 flex flex-col gap-8">
+      <div className="flex flex-col gap-4 items-center text-center max-w-3xl mx-auto">
+        <h1 className="text-4xl font-bold">
+          Ready to Revise? Prepare your{" "}
+          <span className="text-emerald-500">notes</span> below
+        </h1>
+        <p className="text-lg text-gray-500">
+          Supercharge your study sessions. Upload your files or content below
+          and watch it transform into interactive study materials.
+        </p>
+      </div>
+      <UploadOptions />
     </main>
   );
 };
-export default page;
+export default RevisionSetsPage;
