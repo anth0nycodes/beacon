@@ -42,7 +42,9 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function AppSidebar({ className, ...props }: AppSidebarProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [userMeta, setUserMeta] = useState<{
     name?: string;
@@ -97,7 +99,7 @@ export function AppSidebar() {
   const isLoading = !userId;
 
   return (
-    <Sidebar className="border-r bg-gray-50/30">
+    <Sidebar className={cn("border-r bg-gray-50/30", className)} {...props}>
       <SidebarContent className="p-2 flex flex-col">
         <SidebarGroup>
           <Label className="text-2xl font-medium text-primary font-secondary tracking-tight">
@@ -141,6 +143,11 @@ export function AppSidebar() {
                       </SidebarMenuItem>
                     );
                   })}
+                </div>
+                <div className="flex flex-col">
+                  <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                    Recent Sets
+                  </Label>
                 </div>
               </div>
             </SidebarMenu>
