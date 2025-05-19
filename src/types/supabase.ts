@@ -163,7 +163,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      content_type: "pdf" | "docx" | "text" | "url" | "youtube"
+      content_type: "pdf" | "docx" | "text" | "url" | "youtube" | "doc"
       processing_status: "processing" | "ready" | "error"
     }
     CompositeTypes: {
@@ -283,7 +283,7 @@ export const Constants = {
   },
   public: {
     Enums: {
-      content_type: ["pdf", "docx", "text", "url", "youtube"],
+      content_type: ["pdf", "docx", "text", "url", "youtube", "doc"],
       processing_status: ["processing", "ready", "error"],
     },
   },
