@@ -124,7 +124,7 @@ export type Database = {
       }
       study_sets: {
         Row: {
-          content_type: Database["public"]["Enums"]["content_type"]
+          content_type: Database["public"]["Enums"]["file_type"]
           created_at: string
           description: string | null
           id: string
@@ -134,7 +134,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          content_type: Database["public"]["Enums"]["content_type"]
+          content_type: Database["public"]["Enums"]["file_type"]
           created_at?: string
           description?: string | null
           id?: string
@@ -144,7 +144,7 @@ export type Database = {
           user_id: string
         }
         Update: {
-          content_type?: Database["public"]["Enums"]["content_type"]
+          content_type?: Database["public"]["Enums"]["file_type"]
           created_at?: string
           description?: string | null
           id?: string
@@ -163,7 +163,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      content_type: "pdf" | "docx" | "text" | "url" | "youtube" | "doc"
+      file_type: "pdf" | "docx" | "txt" | "url" | "youtube"
       processing_status: "processing" | "ready" | "error"
     }
     CompositeTypes: {
@@ -283,7 +283,7 @@ export const Constants = {
   },
   public: {
     Enums: {
-      content_type: ["pdf", "docx", "text", "url", "youtube", "doc"],
+      file_type: ["pdf", "docx", "txt", "url", "youtube"],
       processing_status: ["processing", "ready", "error"],
     },
   },

@@ -1,5 +1,6 @@
 import React from "react";
 import UploadOptions from "./components/upload-options";
+import { ActiveFiles, FileUploader } from "@/components/file-components";
 
 const RevisionSetsPage = () => {
   return (
@@ -15,6 +16,10 @@ const RevisionSetsPage = () => {
         </p>
       </div>
       <UploadOptions />
+      <section className="grid grid-cols-1 h-full md:grid-cols-2 gap-4">
+        <FileUploader />
+        <ActiveFiles />
+      </section>
     </main>
   );
 };
