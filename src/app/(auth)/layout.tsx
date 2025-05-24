@@ -1,6 +1,7 @@
-import { createClient } from "@/utils/supabase/server";
-import React from "react";
 import { redirect } from "next/navigation";
+import React from "react";
+import { createClient } from "@/utils/supabase/server";
+
 const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   const supabase = await createClient();
   const {
@@ -12,9 +13,7 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center h-screen">
-        <div className="flex flex-col items-center justify-center w-full max-w-lg">
-          {children}
-        </div>
+        <div className="flex flex-col items-center justify-center w-full max-w-lg">{children}</div>
       </div>
     </div>
   );

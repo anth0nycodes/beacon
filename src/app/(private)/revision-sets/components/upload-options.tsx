@@ -1,6 +1,6 @@
 import { FileCheck, Link2, Type, Video } from "lucide-react";
 import React from "react";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 interface OptionsProps {
   icon: React.ReactNode;
@@ -26,7 +26,7 @@ interface OptionsProps {
 const UploadOptions = () => {
   const options: OptionsProps[] = [
     {
-      icon: <FileCheck className="size-8 text-emerald-500" />,
+      icon: <FileCheck className="size-8     text-emerald-500  " />,
       title: "Document",
       description: ".pdf, .docx",
       dialogTitle: "Upload Document",

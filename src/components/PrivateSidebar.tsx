@@ -1,11 +1,7 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/ui/app-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
-export default function PrivateDashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PrivateDashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">

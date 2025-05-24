@@ -5,11 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // TODO: Add type safety and remove hardcoded values in future
 export const FileQuantity = () => {
-  return (
-    <div className="text-sm sm:text-base mb-3 ">
-      Files added: 0 / 5 (Free limit)
-    </div>
-  );
+  return <div className="text-sm sm:text-base mb-3 ">Files added: 0 / 5 (Free limit)</div>;
 };
 
 export const FileUploader = () => {

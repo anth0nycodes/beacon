@@ -6,13 +6,13 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.trybeacon.app"),
-  title: "Beacon - Your AI-Powered Study Assistant",
+  title: "Beacon - AI-Powered Code Comprehension",
   description:
-    "Beacon is an AI-powered study assistant that transforms your notes, documents, links, and YouTube videos into interactive study sets and flashcards. Instantly chat with your materials, test your knowledge, and organize all your study resources in one place.",
+    "Understand large codebases instantly. Beacon analyzes your code, shows you what each file does, and helps you learn, search, and chat with your code.",
   openGraph: {
-    title: "Beacon - Your AI-Powered Study Assistant",
+    title: "Beacon - AI-Powered Code Comprehension",
     description:
-      "Beacon is an AI-powered study assistant that transforms your notes, documents, links, and YouTube videos into interactive study sets and flashcards. Instantly chat with your materials, test your knowledge, and organize all your study resources in one place.",
+      "Understand large codebases instantly. Beacon analyzes your code, shows you what each file does, and helps you learn, search, and chat with your code.",
     type: "website",
     url: "https://www.trybeacon.app",
     images: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         url: "/assets/banner.png",
         width: 1200,
         height: 630,
-        alt: "Beacon - Your AI-Powered Study Assistant",
+        alt: "Beacon - AI-Powered Code Comprehension",
       },
     ],
   },
@@ -45,19 +45,19 @@ const Waitlist = () => {
         </section>
         <section className="flex flex-col gap-4">
           <p className="text-xl font-semibold text-gray-900 dark:text-white">
-            Study smarter, not harder—with Beacon.
+            Large and complicated codebases? No problem.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Upload your notes, documents, links, or YouTube videos and Beacon
-            will turn them into interactive study sets and flashcards.
+            Beacon lets you search, explore, and chat with your codebase while
+            answering your questions, and helps you learn through interactive
+            quizzes.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Instantly chat with your materials, test your knowledge, and keep
-            all your study resources organized in one place.
+            Connect your GitHub, upload any repo, and unlock instant
+            understanding.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            No more scattered notes—just clear, AI-powered learning and
-            revision.
+            No more getting lost—just clear, AI-powered code comprehension.
           </p>
           <p className="text-base text-gray-900 dark:text-white font-medium">
             A version of Beacon is coming soon within the next few months.
