@@ -1,9 +1,9 @@
-import React from "react";
-import PrivateHeader from "@/components/PrivateHeader";
-import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import React from "react";
 import { ClientProviders } from "@/components/ClientProviders";
+import PrivateHeader from "@/components/PrivateHeader";
 import PrivateDashboardLayout from "@/components/PrivateSidebar";
+import { createClient } from "@/utils/supabase/server";
 
 const PrivateLayout = async ({ children }: { children: React.ReactNode }) => {
   // Server component - can use await directly

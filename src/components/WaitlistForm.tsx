@@ -1,20 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { WaitlistSchema, waitlistSchema } from "@/schemas/waitlist-schema";
 import { LoaderCircle } from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { WaitlistSchema, waitlistSchema } from "@/schemas/waitlist-schema";
 
 const WaitlistForm = () => {
   const form = useForm<WaitlistSchema>({
@@ -35,9 +29,7 @@ const WaitlistForm = () => {
       });
 
       if (res.ok) {
-        toast.success(
-          "Successfully joined waitlist! It might take a minute to reach your inbox."
-        );
+        toast.success("Successfully joined waitlist! It might take a minute to reach your inbox.");
       } else {
         toast.error("Something went wrong. Please try again.");
       }

@@ -1,9 +1,9 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
 import { Provider } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
 import { getURL } from "@/utils/helpers";
+import { createClient } from "@/utils/supabase/server";
 
 export const logout = async () => {
   const supabase = await createClient();

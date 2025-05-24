@@ -1,19 +1,12 @@
 "use client";
 
 import { MenuIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
-import { useState } from "react";
 import Link from "next/link";
-import { BeaconIcon } from "@/svgs/project-icons";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/use-auth";
+import { BeaconIcon } from "@/svgs/project-icons";
 
 const MobileNavbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -66,20 +59,13 @@ const MobileNavbar = () => {
               {user ? (
                 <div className="space-y-2">
                   <Link href="/revision-sets" className="w-full block">
-                    <Button
-                      className="w-full"
-                      onClick={() => setShowMobileMenu(false)}
-                    >
+                    <Button className="w-full" onClick={() => setShowMobileMenu(false)}>
                       Revise
                     </Button>
                   </Link>
                 </div>
               ) : (
-                <Button
-                  className="w-full"
-                  onClick={() => setShowMobileMenu(false)}
-                  asChild
-                >
+                <Button className="w-full" onClick={() => setShowMobileMenu(false)} asChild>
                   <Link href="/login">Get started</Link>
                 </Button>
               )}

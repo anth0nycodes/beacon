@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  ChevronsUpDown,
-  SettingsIcon,
-  LogOutIcon,
-  BookOpenCheck,
-} from "lucide-react";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
-
+import { BookOpenCheck, ChevronsUpDown, LogOutIcon, SettingsIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ThemeToggle } from "../theme-toggle";
+import { Button } from "./button";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { Separator } from "./separator";
+import { logout } from "@/actions/auth.actions";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Label } from "@/components/ui/label";
 import {
   Sidebar,
   SidebarContent,
@@ -20,17 +21,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Label } from "@/components/ui/label";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
-import { createClient } from "@/utils/supabase/client";
-import { Button } from "./button";
-import { logout } from "@/actions/auth.actions";
+import { cn } from "@/lib/utils";
 import { BeaconIcon } from "@/svgs/project-icons";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { ThemeToggle } from "../theme-toggle";
-import { Separator } from "./separator";
+import { createClient } from "@/utils/supabase/client";
 
 const supabase = createClient();
 
@@ -130,9 +124,7 @@ export function AppSidebar({ className, ...props }: AppSidebarProps) {
                           <Link
                             className={cn(
                               "flex items-center gap-3 p-2 font-medium",
-                              isActive
-                                ? "text-primary"
-                                : "text-gray-700 hover:text-primary"
+                              isActive ? "text-primary" : "text-gray-700 hover:text-primary"
                             )}
                             href={item.url}
                           >
@@ -192,11 +184,7 @@ export function AppSidebar({ className, ...props }: AppSidebarProps) {
               </PopoverTrigger>
             </div>
           </div>
-          <PopoverContent
-            className="w-[272px] md:w-59.5"
-            side="top"
-            align="start"
-          >
+          <PopoverContent className="w-[272px] md:w-59.5" side="top" align="start">
             <div className="flex flex-col gap-4">
               <Link href="/settings" className="w-full flex items-center gap-1">
                 <SettingsIcon className="size-4 mr-2" />

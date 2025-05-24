@@ -1,8 +1,8 @@
-import { BeaconIcon } from "@/svgs/project-icons";
+import { Metadata } from "next";
 import React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import WaitlistForm from "@/components/WaitlistForm";
-import { Metadata } from "next";
+import { BeaconIcon } from "@/svgs/project-icons";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.trybeacon.app"),
@@ -48,13 +48,11 @@ const Waitlist = () => {
             Large and complicated codebases? No problem.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Beacon lets you search, explore, and chat with your codebase while
-            answering your questions, and helps you learn through interactive
-            quizzes.
+            Beacon lets you search, explore, and chat with your codebase while answering your
+            questions, and helps you learn through interactive quizzes.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Connect your GitHub, upload any repo, and unlock instant
-            understanding.
+            Connect your GitHub, upload any repo, and unlock instant understanding.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
             No more getting lost—just clear, AI-powered code comprehension.
