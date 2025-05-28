@@ -1,7 +1,7 @@
 "use client";
 
 import { FileCheck, Link2, Type, Video } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { UploadButton } from "@/components/custom-uploader";
+import {
+  FileUploadButton,
+  TextUploadButton,
+} from "@/components/custom-uploader";
 
 interface OptionsProps {
   icon: React.ReactNode;
@@ -31,6 +34,7 @@ const inputClassName = "w-full text-base p-3 rounded-md placeholder:text-sm";
 
 const UploadOptions = () => {
   const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const [text, setText] = useState<string>("");
 
   const options: OptionsProps[] = [
     {
@@ -74,33 +78,37 @@ const UploadOptions = () => {
     switch (option.title) {
       case "Text":
         return (
-          <div className="grid gap-4">
-            <div className="flex flex-col items-center gap-4 w-full">
-              <Textarea
-                id={option.title}
-                className={cn(
-                  inputClassName,
-                  "min-h-[8rem] sm:min-h-[10rem] resize-y"
-                )}
-                placeholder={option.placeholder}
-              />
-              <Button className={buttonClassName}>
-                {option.dialogSubmitButtonTitle}
-              </Button>
-            </div>
+          <div className="flex flex-col items-center gap-4">
+            <Textarea
+              id={option.title}
+              className={cn(
+                inputClassName,
+                "min-h-[8rem] max-h-[8rem] resize-none sm:min-h-[10rem] sm:max-h-[10rem]"
+              )}
+              placeholder={option.placeholder}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <TextUploadButton
+              className={buttonClassName}
+              text={text}
+              setText={setText}
+              onUploadComplete={() => setOpenDialog(null)}
+            >
+              {option.dialogSubmitButtonTitle}
+            </TextUploadButton>
           </div>
         );
 
       case "Document":
         return (
           <div>
-            <UploadButton
+            <FileUploadButton
               className={buttonClassName}
-              resetUpload={openDialog !== "Document"}
               onUploadComplete={() => setOpenDialog(null)}
             >
               {option.dialogSubmitButtonTitle}
-            </UploadButton>
+            </FileUploadButton>
           </div>
         );
 
@@ -151,7 +159,7 @@ const UploadOptions = () => {
               </p>
             </div>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] p-6">
+          <DialogContent className="sm:max-w-md p-6">
             <DialogHeader>
               <DialogTitle className="text-lg font-bold">
                 {option.dialogTitle}

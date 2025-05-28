@@ -6,10 +6,14 @@ const f = createUploadthing();
 
 export const ourFileRouter = {
   // define routes for different upload types
-  documentUpload: f({
-    pdf: { maxFileSize: "8MB", maxFileCount: 5 },
+  fileUpload: f({
+    pdf: { maxFileSize: "4MB", maxFileCount: 1 },
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
-      maxFileSize: "8MB",
+      maxFileSize: "4MB",
+      maxFileCount: 1,
+    },
+    "text/plain": {
+      maxFileSize: "4MB",
       maxFileCount: 1,
     },
   })
