@@ -18,17 +18,16 @@ export type UploadedFile = {
 
 type UploadedFileStore = {
   uploadedFiles: UploadedFile[];
-  setUploadedFiles: (files: UploadedFile[]) => void;
   addUploadedFile: (file: UploadedFile) => void;
-  clearUploadedFiles: () => void;
+  removeUploadedFile: (fileKey: string) => void;
 };
 
-const useUploadedFileStore = create<UploadedFileStore>((set) => ({
+export const useUploadedFileStore = create<UploadedFileStore>((set) => ({
   uploadedFiles: [],
-  setUploadedFiles: (files) => set({ uploadedFiles: files }),
   addUploadedFile: (file) =>
     set((state) => ({ uploadedFiles: [...state.uploadedFiles, file] })),
-  clearUploadedFiles: () => set({ uploadedFiles: [] }),
+  removeUploadedFile: (key) =>
+    set((state: UploadedFileStore) => ({
+      uploadedFiles: state.uploadedFiles.filter((file) => file.key !== key),
+    })),
 }));
-
-export default useUploadedFileStore;

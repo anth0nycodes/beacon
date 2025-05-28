@@ -16,9 +16,7 @@ const RevisionSetsPage = () => {
         </p>
       </div>
       <UploadOptions />
-      <section className="grid grid-cols-1 h-full md:grid-cols-2 gap-4">
-        <ActiveFiles />
-      </section>
+      <ActiveFiles />
     </main>
   );
 };

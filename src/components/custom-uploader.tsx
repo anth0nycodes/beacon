@@ -1,16 +1,22 @@
 import { useUploadThing } from "@/utils/uploadthing";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import React from "react";
-import useUploadedFileStore from "@/store/uploadedFile";
+import { useUploadedFileStore } from "@/store/uploadedFile";
+import { toast } from "sonner";
+import { textUploadSchema } from "@/schemas/upload-options-schema";
 
-interface UploadButtonProps {
-  children: React.ReactNode;
+interface FileUploadButtonProps {
+  children: ReactNode;
   className?: string;
-  resetUpload?: boolean;
   onUploadComplete?: () => void;
+}
+
+interface TextUploadButtonProps extends FileUploadButtonProps {
+  text: string;
+  setText: (text: string) => void;
 }
 
 type UploadedFile = {
@@ -29,41 +35,42 @@ type UploadedFile = {
   url: string;
 };
 
-export function UploadButton({
+export function FileUploadButton({
   children,
   className,
-  resetUpload,
   onUploadComplete,
-}: UploadButtonProps) {
+}: FileUploadButtonProps) {
   const inputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
-  const abortController = useRef<AbortController | null>(null);
-  const setUploadedFiles = useUploadedFileStore(
-    (state) => state.setUploadedFiles
+  const addUploadedFile = useUploadedFileStore(
+    (state) => state.addUploadedFile
   );
+  const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
 
-  const { startUpload } = useUploadThing("documentUpload", {
+  const { startUpload } = useUploadThing("fileUpload", {
     onClientUploadComplete: (res) => {
-      console.log(res);
+      console.dir(res, { depth: null });
       setIsUploading(false);
-      setUploadedFiles(res);
+      const newFile = res[0] as UploadedFile;
+
+      if (uploadedFiles.some((file) => file.fileHash === newFile.fileHash)) {
+        toast.error("This file has already been uploaded.");
+        return;
+      }
+
+      addUploadedFile(newFile);
+
       if (typeof onUploadComplete === "function") {
         onUploadComplete();
       }
     },
     onUploadError: (error) => {
       console.log(error);
+      toast.error("An error occurred while uploading the file.");
       setIsUploading(false);
     },
     onUploadBegin: () => setIsUploading(true),
   });
-
-  // Reset uploading state if dialog closes
-  useEffect(() => {
-    if (resetUpload && abortController.current) {
-      abortController.current.abort();
-    }
-  }, [resetUpload]);
 
   const handleButtonClick = () => {
     if (inputRef.current) {
@@ -97,5 +104,64 @@ export function UploadButton({
         {isUploading ? <Loader2 className="animate-spin" /> : children}
       </Button>
     </>
+  );
+}
+
+export function TextUploadButton({
+  children,
+  className,
+  onUploadComplete,
+  text,
+  setText,
+}: TextUploadButtonProps) {
+  const [isUploading, setIsUploading] = useState(false);
+  const addUploadedFile = useUploadedFileStore(
+    (state) => state.addUploadedFile
+  );
+  const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
+
+  const { startUpload } = useUploadThing("fileUpload", {
+    onClientUploadComplete: (res) => {
+      console.dir(res, { depth: null });
+      setIsUploading(false);
+      const newFile = res[0] as UploadedFile;
+
+      if (uploadedFiles.some((file) => file.fileHash === newFile.fileHash)) {
+        toast.error("This file has already been uploaded.");
+        return;
+      }
+
+      addUploadedFile(newFile);
+      setText("");
+      if (typeof onUploadComplete === "function") {
+        onUploadComplete();
+      }
+    },
+    onUploadError: (error) => {
+      console.log(error);
+      toast.error("An error occurred while uploading the file.");
+      setIsUploading(false);
+    },
+    onUploadBegin: () => setIsUploading(true),
+  });
+
+  const handleButtonClick = () => {
+    const result = textUploadSchema.safeParse({ text });
+    if (!result.success) {
+      toast.error(result.error.errors[0].message);
+      return;
+    }
+    const file = new File([text], text, { type: "text/plain" });
+    startUpload([file]);
+  };
+
+  return (
+    <Button
+      className={className}
+      onClick={handleButtonClick}
+      disabled={isUploading}
+    >
+      {isUploading ? <Loader2 className="animate-spin" /> : children}
+    </Button>
   );
 }
