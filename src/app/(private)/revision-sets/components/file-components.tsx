@@ -2,19 +2,27 @@
 
 import React from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { useUploadedFileStore } from "@/store/uploadedFile";
+import { MAX_FILES, useUploadedFileStore } from "@/store/uploadedFile";
 import { FileCheck, Type, Link2, Video, FileText, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const FileLimitText = () => {
+  const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
+  return (
+    <p className="text-sm mb-3 sm:text-base text-emerald-800">
+      Files added: {uploadedFiles.length} / {MAX_FILES}
+    </p>
+  );
+};
+
+// TODO: make this component more responsive
 export const ActiveFiles = () => {
   const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
 
   return (
     <Card className="rounded-2xl h-full py-4 w-full bg-emerald-300/10 border max-w-3xl mx-auto border-emerald-100 shadow-none flex flex-col">
       <CardTitle className="flex border-b items-center border-emerald-100 font-semibold px-4 sm:px-5 text-emerald-800 text-base sm:text-lg lg:text-xl">
-        <p className="mb-3 text-sm sm:text-base">
-          Your Files ({uploadedFiles.length})
-        </p>
+        <FileLimitText />
       </CardTitle>
       <CardContent>
         {uploadedFiles.length > 0 ? (
