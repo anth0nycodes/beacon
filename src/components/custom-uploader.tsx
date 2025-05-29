@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import React from "react";
-import { useUploadedFileStore } from "@/store/uploadedFile";
+import { MAX_FILES, useUploadedFileStore } from "@/store/uploadedFile";
 import { toast } from "sonner";
 import { textUploadSchema } from "@/schemas/upload-options-schema";
 
@@ -46,6 +46,9 @@ export function FileUploadButton({
     (state) => state.addUploadedFile
   );
   const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
+  const isAtFileLimit = useUploadedFileStore((state) => state.isAtFileLimit);
+
+  // const controller = new AbortController();
 
   const { startUpload } = useUploadThing("fileUpload", {
     onClientUploadComplete: (res) => {
@@ -54,6 +57,8 @@ export function FileUploadButton({
       const newFile = res[0] as UploadedFile;
 
       if (uploadedFiles.some((file) => file.fileHash === newFile.fileHash)) {
+        // controller.abort();
+        // TODO: handle duplicate files properly, right now they still get uploaded to uploadthing
         toast.error("This file has already been uploaded.");
         return;
       }
@@ -72,18 +77,26 @@ export function FileUploadButton({
     onUploadBegin: () => setIsUploading(true),
   });
 
+  const handleUploadAttempt = () => {
+    if (isAtFileLimit()) {
+      toast.error(`You have reached the maximum number of files.`);
+      return true; // limit reached
+    }
+    return false; // safe to upload
+  };
+
   const handleButtonClick = () => {
+    if (handleUploadAttempt()) return;
     if (inputRef.current) {
       (inputRef.current as HTMLInputElement).click();
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      startUpload([file]);
-      console.log(JSON.stringify(file));
-    }
+    if (!file) return;
+
+    startUpload([file]);
   };
 
   return (
@@ -119,6 +132,7 @@ export function TextUploadButton({
     (state) => state.addUploadedFile
   );
   const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
+  const isAtFileLimit = useUploadedFileStore((state) => state.isAtFileLimit);
 
   const { startUpload } = useUploadThing("fileUpload", {
     onClientUploadComplete: (res) => {
@@ -127,7 +141,7 @@ export function TextUploadButton({
       const newFile = res[0] as UploadedFile;
 
       if (uploadedFiles.some((file) => file.fileHash === newFile.fileHash)) {
-        toast.error("This file has already been uploaded.");
+        toast.error("This text has already been uploaded.");
         return;
       }
 
@@ -146,6 +160,10 @@ export function TextUploadButton({
   });
 
   const handleButtonClick = () => {
+    if (isAtFileLimit()) {
+      toast.error(`You have reached the maximum number of files.`);
+      return;
+    }
     const result = textUploadSchema.safeParse({ text });
     if (!result.success) {
       toast.error(result.error.errors[0].message);
