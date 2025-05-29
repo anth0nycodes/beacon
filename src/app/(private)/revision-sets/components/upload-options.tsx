@@ -1,6 +1,8 @@
+"use client";
+
 import { FileCheck, Link2, Type, Video } from "lucide-react";
-import React from "react";
-import { cn } from "@/lib/utils";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +11,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import {
+  FileUploadButton,
+  TextUploadButton,
+} from "@/components/custom-uploader";
 
 interface OptionsProps {
   icon: React.ReactNode;
@@ -23,7 +29,13 @@ interface OptionsProps {
   placeholder?: string;
 }
 
+const buttonClassName = "w-full py-3 text-sm sm:text-base font-medium";
+const inputClassName = "w-full text-base p-3 rounded-md placeholder:text-sm";
+
 const UploadOptions = () => {
+  const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const [text, setText] = useState<string>("");
+
   const options: OptionsProps[] = [
     {
       icon: <FileCheck className="size-8 text-emerald-500" />,
@@ -62,10 +74,70 @@ const UploadOptions = () => {
     },
   ];
 
+  const renderContent = (option: OptionsProps) => {
+    switch (option.title) {
+      case "Text":
+        return (
+          <div className="flex flex-col items-center gap-4">
+            <Textarea
+              id={option.title}
+              className={cn(
+                inputClassName,
+                "min-h-[8rem] max-h-[8rem] resize-none sm:min-h-[10rem] sm:max-h-[10rem]"
+              )}
+              placeholder={option.placeholder}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <TextUploadButton
+              className={buttonClassName}
+              text={text}
+              setText={setText}
+              onUploadComplete={() => setOpenDialog(null)}
+            >
+              {option.dialogSubmitButtonTitle}
+            </TextUploadButton>
+          </div>
+        );
+
+      case "Document":
+        return (
+          <div>
+            <FileUploadButton
+              className={buttonClassName}
+              onUploadComplete={() => setOpenDialog(null)}
+            >
+              {option.dialogSubmitButtonTitle}
+            </FileUploadButton>
+          </div>
+        );
+
+      default:
+        return (
+          <div className="grid gap-4">
+            <div className="flex flex-col items-center gap-4 w-full">
+              <Input
+                id={option.title}
+                className={inputClassName}
+                placeholder={option.placeholder}
+              />
+              <Button className={buttonClassName}>
+                {option.dialogSubmitButtonTitle}
+              </Button>
+            </div>
+          </div>
+        );
+    }
+  };
+
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto px-4">
       {options.map((option) => (
-        <Dialog key={option.title}>
+        <Dialog
+          key={option.title}
+          open={openDialog === option.title}
+          onOpenChange={(open) => setOpenDialog(open ? option.title : null)}
+        >
           <DialogTrigger asChild>
             <div
               className={cn(
@@ -87,7 +159,7 @@ const UploadOptions = () => {
               </p>
             </div>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] p-6">
+          <DialogContent className="sm:max-w-md p-6">
             <DialogHeader>
               <DialogTitle className="text-lg font-bold">
                 {option.dialogTitle}
@@ -96,37 +168,7 @@ const UploadOptions = () => {
                 {option.dialogDescription}
               </DialogDescription>
             </DialogHeader>
-            {option.title === "Text" ? (
-              <div className="grid gap-4">
-                <div className="flex flex-col items-center gap-4 w-full">
-                  <Textarea
-                    id={option.title}
-                    className="w-full min-h-[8rem] sm:min-h-[10rem] resize-y text-base p-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-sm"
-                    placeholder={option.placeholder}
-                  />
-                  <Button className="w-full py-3 text-sm sm:text-base font-medium">
-                    {option.dialogSubmitButtonTitle}
-                  </Button>
-                </div>
-              </div>
-            ) : option.title === "Document" ? (
-              <Button className="w-full py-3 text-sm sm:text-base font-medium">
-                {option.dialogSubmitButtonTitle}
-              </Button>
-            ) : (
-              <div className="grid gap-4">
-                <div className="flex flex-col items-center gap-4 w-full">
-                  <Input
-                    id={option.title}
-                    className="w-full text-base p-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-400 placeholder:text-sm"
-                    placeholder={option.placeholder}
-                  />
-                  <Button className="w-full py-3 text-sm sm:text-base font-medium">
-                    {option.dialogSubmitButtonTitle}
-                  </Button>
-                </div>
-              </div>
-            )}
+            {renderContent(option)}
           </DialogContent>
         </Dialog>
       ))}

@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { LoopsClient } from "loops";
+import { NextResponse } from "next/server";
 
 const loops = new LoopsClient(process.env.LOOPS_API_KEY as string);
 
@@ -16,9 +16,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("Subscribe error:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

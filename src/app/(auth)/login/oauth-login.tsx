@@ -1,10 +1,10 @@
 "use client";
 
-import { oAuthLogin } from "@/actions/auth.actions";
-import { Button } from "@/components/ui/button";
 import { Provider } from "@supabase/supabase-js";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { oAuthLogin } from "@/actions/auth.actions";
+import { Button } from "@/components/ui/button";
 
 type OAuthProvider = {
   name: Provider;

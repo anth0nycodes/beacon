@@ -1,12 +1,11 @@
-import React from "react";
 import Link from "next/link";
-
+import React from "react";
+import { Button } from "./ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Button } from "./ui/button";
 import { BeaconIcon } from "@/svgs/project-icons";
 import { createClient } from "@/utils/supabase/server";
 
