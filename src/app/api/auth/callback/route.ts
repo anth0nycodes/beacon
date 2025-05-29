@@ -16,15 +16,15 @@ export async function GET(request: Request) {
         data: { user },
       } = await supabase.auth.getUser();
 
-      await supabase.from("users").upsert({
-        id: user.id,
-        name: user.user_metadata.full_name || user.user_metadata.name,
-        email: user.email,
-        avatar_url: user.user_metadata.avatar_url,
-        created_at: new Date().toISOString(),
-      });
-
-      console.dir(user, { depth: null });
+      if (user) {
+        await supabase.from("users").upsert({
+          id: user.id,
+          name: user.user_metadata.full_name || user.user_metadata.name,
+          email: user.email,
+          avatar_url: user.user_metadata.avatar_url,
+          created_at: new Date().toISOString(),
+        });
+      }
 
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === "development";
