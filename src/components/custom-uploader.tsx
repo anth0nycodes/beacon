@@ -19,7 +19,7 @@ interface TextUploadButtonProps extends FileUploadButtonProps {
   setText: (text: string) => void;
 }
 
-type UploadedFile = {
+export type UploadedFile = {
   appUrl: string;
   customId?: string | null;
   fileHash: string;
