@@ -45,25 +45,14 @@ export function FileUploadButton({
   const addUploadedFile = useUploadedFileStore(
     (state) => state.addUploadedFile
   );
-  const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
   const isAtFileLimit = useUploadedFileStore((state) => state.isAtFileLimit);
-
-  // const controller = new AbortController();
 
   const { startUpload } = useUploadThing("fileUpload", {
     onClientUploadComplete: (res) => {
       console.dir(res, { depth: null });
       setIsUploading(false);
-      const newFile = res[0] as UploadedFile;
 
-      if (uploadedFiles.some((file) => file.fileHash === newFile.fileHash)) {
-        // controller.abort();
-        // TODO: handle duplicate files properly, right now they still get uploaded to uploadthing
-        toast.error("This file has already been uploaded.");
-        return;
-      }
-
-      addUploadedFile(newFile);
+      addUploadedFile(res[0] as UploadedFile);
 
       if (typeof onUploadComplete === "function") {
         onUploadComplete();
@@ -131,21 +120,13 @@ export function TextUploadButton({
   const addUploadedFile = useUploadedFileStore(
     (state) => state.addUploadedFile
   );
-  const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
   const isAtFileLimit = useUploadedFileStore((state) => state.isAtFileLimit);
 
   const { startUpload } = useUploadThing("fileUpload", {
     onClientUploadComplete: (res) => {
       console.dir(res, { depth: null });
       setIsUploading(false);
-      const newFile = res[0] as UploadedFile;
-
-      if (uploadedFiles.some((file) => file.fileHash === newFile.fileHash)) {
-        toast.error("This text has already been uploaded.");
-        return;
-      }
-
-      addUploadedFile(newFile);
+      addUploadedFile(res[0] as UploadedFile);
       setText("");
       if (typeof onUploadComplete === "function") {
         onUploadComplete();
@@ -169,7 +150,7 @@ export function TextUploadButton({
       toast.error(result.error.errors[0].message);
       return;
     }
-    const file = new File([text], text, { type: "text/plain" });
+    const file = new File([text], `${text}.txt`, { type: "text/plain" });
     startUpload([file]);
   };
 
