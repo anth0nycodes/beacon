@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
+    "@langchain/community": "^0.3.45",
+    "@langchain/core": "^0.3.57",
     "@radix-ui/react-avatar": "^1.1.9",
     "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-label": "^2.1.4",
@@ -38,6 +40,7 @@
     "lucide-react": "^0.506.0",
     "next": "15.3.1",
     "next-themes": "^0.4.6",
+    "pdf-parse": "^1.1.1",
     "postgres": "^3.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
