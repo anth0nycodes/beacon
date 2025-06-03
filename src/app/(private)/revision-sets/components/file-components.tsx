@@ -83,10 +83,11 @@ const GenerateRevisionSetButton = ({
     try {
       setIsGeneratingRevisionSet(true);
       toast.loading("📝 Generating revision set...");
-      const response = await fetch("/api/extract-pdf", {
+      const response = await fetch("/api/extract-upload-type", {
         method: "POST",
         body: JSON.stringify({
           fileUrl: uploadedFiles.map((file) => file.ufsUrl),
+          type: uploadedFiles.map((file) => file.type),
         }),
       });
       const data = await response.json();
