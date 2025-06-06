@@ -7,10 +7,11 @@ import {
   FileCheck,
   Type,
   Link2,
-  Video,
   FileText,
   Trash2,
   Loader2,
+  Presentation,
+  Video,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UploadedFile } from "@/components/custom-uploader";
@@ -38,16 +39,22 @@ export const ActiveFiles = () => {
         </CardTitle>
         <CardContent>
           {uploadedFiles.length > 0 ? (
-            <ul>
+            <ul className="space-y-3">
               {uploadedFiles.map((file) => (
-                <li key={file.key}>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-4">
+                <li key={file.key} className="w-full">
+                  <div className="flex items-center gap-2 sm:gap-3 md:gap-4 w-full min-w-0">
+                    <div className="flex-shrink-0">
                       <UploadedFileIcon type={file.type} />
-                      <p className="truncate sm:max-w-[40ch]">{file.name}</p>
-                      {/* TODOL fix text truncation */}
                     </div>
-                    <DeleteFile fileKey={file.key} />
+                    <div className="flex-1 min-w-0 overflow-hidden">
+                      {/* TODO: fix text truncation */}
+                      <p className="truncate text-sm sm:text-base text-emerald-800 font-medium">
+                        {file.name}
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <DeleteFile fileKey={file.key} />
+                    </div>
                   </div>
                 </li>
               ))}
@@ -104,10 +111,14 @@ const GenerateRevisionSetButton = ({
   return (
     <Button
       disabled={isGeneratingRevisionSet}
+      className="w-fit mx-auto"
       onClick={() => handleGenerateRevisionSet(uploadedFiles)}
     >
       {isGeneratingRevisionSet ? (
-        <Loader2 className="size-4 animate-spin" />
+        <div className="flex items-center gap-2">
+          <Loader2 className="size-4 animate-spin" />
+          <span>Generate Revision Set</span>
+        </div>
       ) : (
         "Generate Revision Set"
       )}
@@ -116,17 +127,24 @@ const GenerateRevisionSetButton = ({
 };
 
 const UploadedFileIcon = ({ type }: { type: string }) => {
-  if (type.startsWith("application/")) {
+  if (
+    type === "application/pdf" ||
+    type ===
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  ) {
     return <FileText className="size-5 text-emerald-500" />;
   }
-  if (type.startsWith("text/")) {
+  if (type === "text/plain") {
     return <Type className="size-5 text-emerald-500" />;
   }
-  if (type === "youtube") {
-    return <Video className="size-5 text-emerald-500" />;
+  if (
+    type ===
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+  ) {
+    return <Presentation className="size-5 text-emerald-500" />;
   }
-  if (type === "url" || type === "link") {
-    return <Link2 className="size-5 text-emerald-500" />;
+  if (type === "video/mp4") {
+    return <Video className="size-5 text-emerald-500" />;
   }
   return <FileCheck className="size-5 text-emerald-500" />;
 };
