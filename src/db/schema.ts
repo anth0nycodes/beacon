@@ -7,7 +7,13 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 
-export const fileTypeEnum = pgEnum("file_type", ["pdf", "docx", "txt"]);
+export const fileTypeEnum = pgEnum("file_type", [
+  "pdf",
+  "docx",
+  "txt",
+  "mp4",
+  "pptx",
+]);
 export const statusEnum = pgEnum("status", [
   "processing",
   "completed",
