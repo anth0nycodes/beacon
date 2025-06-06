@@ -231,7 +231,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      file_type: "pdf" | "docx" | "txt";
+      file_type: "pdf" | "docx" | "txt" | "mp4" | "pptx";
       plan: "free" | "plus" | "pro";
       status: "processing" | "completed" | "failed";
       subscription_status: "active" | "canceled";
@@ -350,7 +350,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      file_type: ["pdf", "docx", "txt"],
+      file_type: ["pdf", "docx", "txt", "mp4", "pptx"],
       plan: ["free", "plus", "pro"],
       status: ["processing", "completed", "failed"],
       subscription_status: ["active", "canceled"],
