@@ -1,6 +1,6 @@
 "use client";
 
-import { FileCheck, Link2, Type, Video } from "lucide-react";
+import { FileText, Video, Presentation, Type } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,12 +38,21 @@ const UploadOptions = () => {
 
   const options: OptionsProps[] = [
     {
-      icon: <FileCheck className="size-8 text-emerald-500" />,
+      icon: <FileText className="size-8 text-emerald-500" />,
       title: "Document",
       description: ".pdf, .docx",
       dialogTitle: "Upload Document",
       dialogDescription: "Click the button below to upload a document",
-      dialogSubmitButtonTitle: "Select File",
+      dialogSubmitButtonTitle: "Upload Document",
+    },
+    {
+      icon: <Presentation className="size-8 text-emerald-500" />,
+      title: "Presentation",
+      description: ".pptx",
+      dialogTitle: "Upload Presentation",
+      dialogDescription:
+        "Click the button below to upload a PowerPoint presentation",
+      dialogSubmitButtonTitle: "Upload Presentation",
     },
     {
       icon: <Type className="size-8 text-emerald-500" />,
@@ -55,22 +64,13 @@ const UploadOptions = () => {
       placeholder: "Type or paste text here",
     },
     {
-      icon: <Link2 className="size-8 text-emerald-500" />,
-      title: "Website Link",
-      description: "Public URL",
-      dialogTitle: "Add Website URL",
-      dialogDescription: "Enter a valid public URL.",
-      dialogSubmitButtonTitle: "Add URL",
-      placeholder: "Type or paste Website URL here",
-    },
-    {
       icon: <Video className="size-8 text-emerald-500" />,
-      title: "YouTube Video",
-      description: "YouTube URL",
-      dialogTitle: "Add YouTube Video",
-      dialogDescription: "Enter a valid YouTube URL.",
-      dialogSubmitButtonTitle: "Add Video",
-      placeholder: "Type or paste YouTube URL here",
+      title: "Video",
+      description: ".mp4",
+      dialogTitle: "Upload Video",
+      dialogDescription:
+        "Click the button below to upload a video file. Please make sure the video file has audio.",
+      dialogSubmitButtonTitle: "Upload Video",
     },
   ];
 
@@ -106,6 +106,33 @@ const UploadOptions = () => {
             <FileUploadButton
               className={buttonClassName}
               onUploadComplete={() => setOpenDialog(null)}
+              acceptedFileTypes=".pdf, .docx"
+            >
+              {option.dialogSubmitButtonTitle}
+            </FileUploadButton>
+          </div>
+        );
+
+      case "Presentation":
+        return (
+          <div>
+            <FileUploadButton
+              className={buttonClassName}
+              onUploadComplete={() => setOpenDialog(null)}
+              acceptedFileTypes=".pptx"
+            >
+              {option.dialogSubmitButtonTitle}
+            </FileUploadButton>
+          </div>
+        );
+
+      case "Video":
+        return (
+          <div>
+            <FileUploadButton
+              className={buttonClassName}
+              onUploadComplete={() => setOpenDialog(null)}
+              acceptedFileTypes=".mp4"
             >
               {option.dialogSubmitButtonTitle}
             </FileUploadButton>

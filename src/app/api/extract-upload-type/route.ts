@@ -1,11 +1,11 @@
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-import { DocxLoader } from "@langchain/community/document_loaders/fs/docx";
-import { TextLoader } from "langchain/document_loaders/fs/text";
-import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
-import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
-import { chromium } from "playwright";
-import * as cheerio from "cheerio";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  fetchAndParsePDF,
+  fetchAndParseDocx,
+  fetchAndParsePlainText,
+  fetchAndParsePPTX,
+  fetchAndParseVideo,
+} from "./helpers";
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,49 +35,13 @@ async function processDocument(fileUrl: string, fileType: string) {
       return await handleFileProcessing(fileUrl, fetchAndParseDocx);
     case "text/plain":
       return await handleFileProcessing(fileUrl, fetchAndParsePlainText);
-    case "youtube":
-    // return await handleFileProcessing(fileUrl, fetchAndParseYoutubeURL);
-    case "url":
-    // return await handleFileProcessing(fileUrl, fetchAndParseWebsiteURL);
+    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+      return await handleFileProcessing(fileUrl, fetchAndParsePPTX);
+    case "video/mp4":
+      return await handleFileProcessing(fileUrl, fetchAndParseVideo);
     default:
       throw new Error("Unsupported file type");
   }
-}
-
-async function fetchAndParsePDF(fileUrl: string) {
-  const response = await fetch(fileUrl);
-  if (!response.ok) throw new Error("Failed to fetch PDF");
-  if (!response.headers.get("content-type")?.includes("pdf")) {
-    throw new Error("URL does not point to a PDF");
-  }
-  const arrayBuffer = await response.arrayBuffer();
-  const loader = new PDFLoader(new Blob([arrayBuffer]));
-  const docs = await loader.load();
-  return docs.map((doc) => doc.pageContent).join("\n");
-}
-
-async function fetchAndParseDocx(fileUrl: string) {
-  const response = await fetch(fileUrl);
-  if (!response.ok) throw new Error("Failed to fetch Docx");
-  if (!response.headers.get("content-type")?.includes("officedocument")) {
-    throw new Error("URL does not point to a Docx");
-  }
-  const arrayBuffer = await response.arrayBuffer();
-  const loader = new DocxLoader(new Blob([arrayBuffer]));
-  const docs = await loader.load();
-  return docs.map((doc) => doc.pageContent).join("\n");
-}
-
-async function fetchAndParsePlainText(fileUrl: string) {
-  const response = await fetch(fileUrl);
-  if (!response.ok) throw new Error("Failed to fetch Plain Text");
-  if (!response.headers.get("content-type")?.includes("text/plain")) {
-    throw new Error("URL does not point to a Plain Text");
-  }
-  const arrayBuffer = await response.arrayBuffer();
-  const loader = new TextLoader(new Blob([arrayBuffer]));
-  const docs = await loader.load();
-  return docs.map((doc) => doc.pageContent).join("\n");
 }
 
 async function handleFileProcessing(

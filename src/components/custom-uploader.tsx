@@ -12,6 +12,7 @@ interface FileUploadButtonProps {
   children: ReactNode;
   className?: string;
   onUploadComplete?: () => void;
+  acceptedFileTypes?: string;
 }
 
 interface TextUploadButtonProps extends FileUploadButtonProps {
@@ -39,6 +40,7 @@ export function FileUploadButton({
   children,
   className,
   onUploadComplete,
+  acceptedFileTypes,
 }: FileUploadButtonProps) {
   const inputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -59,8 +61,9 @@ export function FileUploadButton({
       }
     },
     onUploadError: (error) => {
-      console.log(error);
+      // TODO: Handle file size mismatch error custom message
       toast.error("An error occurred while uploading the file.");
+      console.error(error);
       setIsUploading(false);
     },
     onUploadBegin: () => setIsUploading(true),
@@ -94,7 +97,7 @@ export function FileUploadButton({
         ref={inputRef}
         type="file"
         className="hidden"
-        accept=".pdf, .docx"
+        accept={acceptedFileTypes}
         onChange={handleFileChange}
         disabled={isUploading}
       />
@@ -133,8 +136,8 @@ export function TextUploadButton({
       }
     },
     onUploadError: (error) => {
-      console.log(error);
       toast.error("An error occurred while uploading the file.");
+      console.error(error);
       setIsUploading(false);
     },
     onUploadBegin: () => setIsUploading(true),
