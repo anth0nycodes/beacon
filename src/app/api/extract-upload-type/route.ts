@@ -4,7 +4,6 @@ import {
   fetchAndParseDocx,
   fetchAndParsePlainText,
   fetchAndParsePPTX,
-  fetchAndParseVideo,
 } from "./helpers";
 
 export async function POST(req: NextRequest) {
@@ -37,8 +36,6 @@ async function processDocument(fileUrl: string, fileType: string) {
       return await handleFileProcessing(fileUrl, fetchAndParsePlainText);
     case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
       return await handleFileProcessing(fileUrl, fetchAndParsePPTX);
-    case "video/mp4":
-      return await handleFileProcessing(fileUrl, fetchAndParseVideo);
     default:
       throw new Error("Unsupported file type");
   }

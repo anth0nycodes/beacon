@@ -1,5 +1,5 @@
 import React from "react";
-import UploadOptions from "./components/upload-options";
+import UploadOptions from "./upload-options";
 import { ActiveFiles } from "./components/file-components";
 
 const RevisionSetsPage = () => {
