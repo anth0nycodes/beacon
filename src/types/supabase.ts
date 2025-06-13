@@ -83,7 +83,7 @@ export type Database = {
         Row: {
           content: string;
           created_at: string;
-          file_hash: string;
+          file_key: string;
           file_size: number;
           file_type: Database["public"]["Enums"]["file_type"];
           id: string;
@@ -94,7 +94,7 @@ export type Database = {
         Insert: {
           content: string;
           created_at?: string;
-          file_hash: string;
+          file_key: string;
           file_size: number;
           file_type: Database["public"]["Enums"]["file_type"];
           id?: string;
@@ -105,7 +105,7 @@ export type Database = {
         Update: {
           content?: string;
           created_at?: string;
-          file_hash?: string;
+          file_key?: string;
           file_size?: number;
           file_type?: Database["public"]["Enums"]["file_type"];
           id?: string;
@@ -231,7 +231,7 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      file_type: "pdf" | "docx" | "txt" | "mp4" | "pptx";
+      file_type: "pdf" | "docx" | "txt" | "pptx";
       plan: "free" | "plus" | "pro";
       status: "processing" | "completed" | "failed";
       subscription_status: "active" | "canceled";
@@ -350,7 +350,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      file_type: ["pdf", "docx", "txt", "mp4", "pptx"],
+      file_type: ["pdf", "docx", "txt", "pptx"],
       plan: ["free", "plus", "pro"],
       status: ["processing", "completed", "failed"],
       subscription_status: ["active", "canceled"],

@@ -216,9 +216,7 @@ const DeleteFile = ({ fileKey }: { fileKey: string }) => {
   );
 };
 
-const getFileType = (
-  mimeType: string
-): "pdf" | "docx" | "txt" | "mp4" | "pptx" => {
+const getFileType = (mimeType: string): "pdf" | "docx" | "txt" | "pptx" => {
   switch (mimeType) {
     case "application/pdf":
       return "pdf";
@@ -226,8 +224,6 @@ const getFileType = (
       return "docx";
     case "text/plain":
       return "txt";
-    case "video/mp4":
-      return "mp4";
     case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
       return "pptx";
     default:
