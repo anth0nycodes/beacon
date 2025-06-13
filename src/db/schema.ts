@@ -7,13 +7,7 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 
-export const fileTypeEnum = pgEnum("file_type", [
-  "pdf",
-  "docx",
-  "txt",
-  "mp4",
-  "pptx",
-]);
+export const fileTypeEnum = pgEnum("file_type", ["pdf", "docx", "txt", "pptx"]);
 export const statusEnum = pgEnum("status", [
   "processing",
   "completed",
@@ -52,7 +46,7 @@ export const documents = pgTable("documents", {
     .references(() => revisionSets.id, { onDelete: "cascade" }),
   originalFilename: text("original_filename").notNull(), // e.g., "notes.pdf" for the tab name in the UI
   fileType: fileTypeEnum("file_type").notNull(), // e.g., "pdf", "docx", "txt"
-  fileHash: text("file_hash").notNull(), // (for deduplication)
+  fileKey: text("file_key").notNull(),
   ufsUrl: text("ufs_url").notNull(), // (UploadThing file URL which we can pass into langchain later for parsing)
   fileSize: integer("file_size").notNull(),
   content: text("content").notNull(), // (the raw content of the file after it has been parsed by langchain, could use this later for summarization. flashcards, etc.)
