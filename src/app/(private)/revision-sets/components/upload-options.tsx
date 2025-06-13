@@ -63,15 +63,6 @@ const UploadOptions = () => {
       dialogSubmitButtonTitle: "Add Text",
       placeholder: "Type or paste text here",
     },
-    {
-      icon: <Video className="size-8 text-emerald-500" />,
-      title: "Video",
-      description: ".mp4",
-      dialogTitle: "Upload Video",
-      dialogDescription:
-        "Click the button below to upload a video file. Please make sure the video file has audio.",
-      dialogSubmitButtonTitle: "Upload Video",
-    },
   ];
 
   const renderContent = (option: OptionsProps) => {
@@ -126,19 +117,6 @@ const UploadOptions = () => {
           </div>
         );
 
-      case "Video":
-        return (
-          <div>
-            <FileUploadButton
-              className={buttonClassName}
-              onUploadComplete={() => setOpenDialog(null)}
-              acceptedFileTypes=".mp4"
-            >
-              {option.dialogSubmitButtonTitle}
-            </FileUploadButton>
-          </div>
-        );
-
       default:
         return (
           <div className="grid gap-4">
@@ -158,7 +136,7 @@ const UploadOptions = () => {
   };
 
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto px-4">
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto px-4">
       {options.map((option) => (
         <Dialog
           key={option.title}
