@@ -53,7 +53,6 @@ export function FileUploadButton({
     onClientUploadComplete: (res) => {
       console.dir(res, { depth: null });
       setIsUploading(false);
-
       addUploadedFile(res[0] as UploadedFile);
 
       if (typeof onUploadComplete === "function") {
