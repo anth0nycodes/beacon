@@ -1,0 +1,2 @@
+TRUNCATE TABLE documents CASCADE;
+TRUNCATE TABLE revision_sets CASCADE;

@@ -108,8 +108,8 @@ const GenerateRevisionSetButton = ({
         }),
       });
 
-      const content = await response.json();
-      console.log("API Response:", content); // Debug the response
+      const contents = await response.json();
+      console.log("API Response:", contents); // Debug the response
 
       // Create revision set
       const { data: revisionSet, error: revisionSetError } = await supabase
@@ -129,12 +129,12 @@ const GenerateRevisionSetButton = ({
       }
 
       // Debug the documents insert
-      const documentsToInsert = uploadedFiles.map((file) => ({
-        content,
+      const documentsToInsert = uploadedFiles.map((file, index) => ({
+        content: contents[index],
         original_filename: file.name,
         ufs_url: file.ufsUrl,
         file_type: getFileType(file.type),
-        file_hash: file.fileHash,
+        file_key: file.key,
         file_size: file.size,
         revision_set_id: revisionSet.id,
       }));
