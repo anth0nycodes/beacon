@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       urls.map((url, i) => processDocument(url, types[i] || types[0]))
     );
 
-    return NextResponse.json({ docs: results });
+    return NextResponse.json(results);
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : String(error) },
