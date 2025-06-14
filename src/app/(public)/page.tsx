@@ -45,17 +45,19 @@ const Waitlist = () => {
         </section>
         <section className="flex flex-col gap-4">
           <p className="text-xl font-semibold text-gray-900 dark:text-white">
-            Large and complicated codebases? No problem.
+            Study smarter, not harder—with Beacon.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Beacon lets you search, explore, and chat with your codebase while answering your
-            questions, and helps you learn through interactive quizzes.
+            Upload your notes, documents, or slideshows and Beacon will turn
+            them into interactive revision sets and flashcards.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Connect your GitHub, upload any repo, and unlock instant understanding.
+            Instantly chat with your materials, test your knowledge, and keep
+            all your study resources organized in one place.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            No more getting lost—just clear, AI-powered code comprehension.
+            No more scattered notes, just clear AI-powered learning and
+            revision.
           </p>
           <p className="text-base text-gray-900 dark:text-white font-medium">
             A version of Beacon is coming soon within the next few months.
