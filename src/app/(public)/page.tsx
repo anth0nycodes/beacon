@@ -1,8 +1,8 @@
-import { BeaconIcon } from "@/svgs/project-icons";
+import { Metadata } from "next";
 import React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import WaitlistForm from "@/components/WaitlistForm";
-import { Metadata } from "next";
+import { BeaconIcon } from "@/svgs/project-icons";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.trybeacon.app"),
