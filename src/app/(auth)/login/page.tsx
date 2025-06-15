@@ -15,7 +15,11 @@ const LoginPage = () => {
           <div>
             <h1 className="text-2xl font-bold text-center">Log in to Beacon</h1>
             <OAuthButtons />
-            {errorMessage && <p className="text-center text-sm text-destructive">{errorMessage}</p>}
+            {errorMessage && (
+              <p className="text-center text-sm text-destructive">
+                {errorMessage}
+              </p>
+            )}
           </div>
         </div>
       </div>
