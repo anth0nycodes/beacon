@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { UploadedFile } from "@/components/custom-uploader";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const supabase = createClient();
 
@@ -89,6 +90,7 @@ const GenerateRevisionSetButton = ({
   isGeneratingRevisionSet: boolean;
   setIsGeneratingRevisionSet: (isGeneratingRevisionSet: boolean) => void;
 }) => {
+  const router = useRouter();
   const handleGenerateRevisionSet = async (uploadedFiles: UploadedFile[]) => {
     try {
       setIsGeneratingRevisionSet(true);
@@ -150,7 +152,7 @@ const GenerateRevisionSetButton = ({
           `Failed to insert documents: ${documentsError.message}`
         );
       }
-
+      router.push(`/revision-sets/${revisionSet.id}`);
       return documents;
     } catch (error) {
       console.error("Full error:", error);
@@ -160,6 +162,7 @@ const GenerateRevisionSetButton = ({
       toast.dismiss();
     }
   };
+
   return (
     <Button
       disabled={isGeneratingRevisionSet}
