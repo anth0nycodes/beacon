@@ -6,13 +6,13 @@ import { BeaconIcon } from "@/svgs/project-icons";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.trybeacon.app"),
-  title: "Beacon - AI-Powered Code Comprehension",
+  title: "Beacon - AI Study Assistant",
   description:
-    "Understand large codebases instantly. Beacon analyzes your code, shows you what each file does, and helps you learn, search, and chat with your code.",
+    "Transform your study materials into interactive learning tools. Beacon turns your notes, documents, and slideshows into revision sets, flashcards, and quizzes.",
   openGraph: {
-    title: "Beacon - AI-Powered Code Comprehension",
+    title: "Beacon - AI Study Assistant",
     description:
-      "Understand large codebases instantly. Beacon analyzes your code, shows you what each file does, and helps you learn, search, and chat with your code.",
+      "Transform your study materials into interactive learning tools. Beacon turns your notes, documents, and slideshows into revision sets, flashcards, and quizzes.",
     type: "website",
     url: "https://www.trybeacon.app",
     images: [
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         url: "/assets/banner.png",
         width: 1200,
         height: 630,
-        alt: "Beacon - AI-Powered Code Comprehension",
+        alt: "Beacon - AI Study Assistant",
       },
     ],
   },
@@ -48,16 +48,12 @@ const Waitlist = () => {
             Study smarter, not harder—with Beacon.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Upload your notes, documents, or slideshows and Beacon will turn
-            them into interactive revision sets and flashcards.
+            Upload your notes, documents, or slideshows, and Beacon will
+            transform them into revision sets.
           </p>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            Instantly chat with your materials, test your knowledge, and keep
+            Chat with your materials, create flashcards, take quizzes, and keep
             all your study resources organized in one place.
-          </p>
-          <p className="text-base text-gray-600 dark:text-gray-300">
-            No more scattered notes, just clear AI-powered learning and
-            revision.
           </p>
           <p className="text-base text-gray-900 dark:text-white font-medium">
             A version of Beacon is coming soon within the next few months.
