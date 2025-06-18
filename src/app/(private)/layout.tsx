@@ -19,9 +19,9 @@ const PrivateLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <ClientProviders>
       <PrivateDashboardLayout>
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 h-full">
           <PrivateHeader />
-          <main className="flex-1 py-4 md:py-6">{children}</main>
+          <main className="flex-1 p-4 md:p-6">{children}</main>
         </div>
       </PrivateDashboardLayout>
     </ClientProviders>

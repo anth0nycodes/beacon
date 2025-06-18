@@ -3,6 +3,11 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import DocumentsViewer from "../DocumentsViewer";
 import ToolsSidebar from "../ToolsSidebar";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 const RevisionSetPage = async ({
   params,
@@ -28,10 +33,25 @@ const RevisionSetPage = async ({
   }
 
   return (
-    <div className="flex flex-col md:flex-row">
-      <DocumentsViewer id={id} />
-      <ToolsSidebar />
-    </div>
+    <ResizablePanelGroup direction="horizontal">
+      <ResizablePanel
+        className="flex-[5] overflow-auto"
+        minSize={40}
+        maxSize={80}
+        defaultSize={50}
+      >
+        <DocumentsViewer id={id} />
+      </ResizablePanel>
+      <ResizableHandle className="mx-4" withHandle />
+      <ResizablePanel
+        className="flex-[5] overflow-auto"
+        minSize={35}
+        maxSize={60}
+        defaultSize={50}
+      >
+        <ToolsSidebar />
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 };
 
