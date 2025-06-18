@@ -4,7 +4,7 @@ import React from "react";
 import DocumentIframe from "./DocumentIframe";
 import { FileIcon } from "lucide-react";
 
-const DocumentsViewer = async ({ id }: { id: string }) => {
+export const DocumentsViewer = async ({ id }: { id: string }) => {
   const supabase = await createClient();
 
   const { data: documents, error } = await supabase
@@ -36,7 +36,7 @@ const DocumentsViewer = async ({ id }: { id: string }) => {
       </div>
       <div className="flex-1 flex flex-col h-full">
         <Tabs className="h-full" defaultValue={documents[0].id}>
-          <TabsList className="w-full justify-center">
+          <TabsList className="inline-flex h-10 rounded-lg p-1 text-muted-foreground bg-primary/5 w-full max-w-full overflow-x-auto items-center justify-start relative">
             {documents?.map((document) => (
               <TabsTrigger
                 key={document.id}
@@ -69,5 +69,3 @@ const DocumentsViewer = async ({ id }: { id: string }) => {
     </div>
   );
 };
-
-export default DocumentsViewer;

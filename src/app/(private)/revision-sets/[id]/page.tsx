@@ -1,8 +1,8 @@
 import React from "react";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import DocumentsViewer from "../DocumentsViewer";
-import ToolsSidebar from "../ToolsSidebar";
+import { DocumentsViewer } from "../DocumentsViewer";
+import { ToolsSidebar } from "../ToolsSidebar";
 import {
   ResizableHandle,
   ResizablePanel,
