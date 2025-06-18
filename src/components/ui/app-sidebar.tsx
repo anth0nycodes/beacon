@@ -1,7 +1,12 @@
 "use client";
 
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
-import { BookOpenCheck, ChevronsUpDown, LogOutIcon, SettingsIcon } from "lucide-react";
+import {
+  BookOpenCheck,
+  ChevronsUpDown,
+  LogOutIcon,
+  SettingsIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,6 +30,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { BeaconIcon } from "@/svgs/project-icons";
 import { createClient } from "@/utils/supabase/client";
+import RecentSets from "@/app/(private)/revision-sets/RecentSets";
 
 const supabase = createClient();
 
@@ -124,7 +130,9 @@ export function AppSidebar({ className, ...props }: AppSidebarProps) {
                           <Link
                             className={cn(
                               "flex items-center gap-3 p-2 font-medium",
-                              isActive ? "text-primary" : "text-gray-700 hover:text-primary"
+                              isActive
+                                ? "text-primary"
+                                : "text-gray-700 hover:text-primary"
                             )}
                             href={item.url}
                           >
@@ -140,6 +148,7 @@ export function AppSidebar({ className, ...props }: AppSidebarProps) {
                   <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                     Recent Sets
                   </Label>
+                  <RecentSets />
                 </div>
               </div>
             </SidebarMenu>
@@ -184,7 +193,11 @@ export function AppSidebar({ className, ...props }: AppSidebarProps) {
               </PopoverTrigger>
             </div>
           </div>
-          <PopoverContent className="w-[272px] md:w-59.5" side="top" align="start">
+          <PopoverContent
+            className="w-[272px] md:w-59.5"
+            side="top"
+            align="start"
+          >
             <div className="flex flex-col gap-4">
               <Link href="/settings" className="w-full flex items-center gap-1">
                 <SettingsIcon className="size-4 mr-2" />
