@@ -18,6 +18,7 @@ export const subscriptionStatusEnum = pgEnum("subscription_status", [
   "active",
   "canceled",
 ]);
+export const chatRoleEnum = pgEnum("chat_role", ["user", "assistant"]);
 
 // all of the info inside users will be provided upon oauth login with supabase
 export const users = pgTable("users", {
@@ -86,4 +87,17 @@ export const subscriptions = pgTable("subscriptions", {
   status: subscriptionStatusEnum("status").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const chatLogs = pgTable("chat_logs", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  role: chatRoleEnum("role").notNull(),
+  content: text("content").notNull(),
+  revisionSetId: uuid("revision_set_id")
+    .notNull()
+    .references(() => revisionSets.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
