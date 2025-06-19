@@ -50,7 +50,7 @@ Always maintain a supportive, educational tone and encourage effective study hab
   }
 
   const result = streamText({
-    model: openai("gpt-4o-mini"),
+    model: openai("gpt-4.1-nano"),
     messages,
     system: SYSTEM_MESSAGE,
     onFinish: async (message) => {
