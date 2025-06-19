@@ -8,6 +8,13 @@
       "when": 1748497376633,
       "tag": "0000_bored_mantis",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1750300663144,
+      "tag": "0001_happy_lilandra",
+      "breakpoints": true
     }
   ]
 }
