@@ -1,1 +1,0 @@
-ALTER TABLE documents RENAME COLUMN key TO file_key;

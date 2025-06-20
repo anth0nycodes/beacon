@@ -1,6 +1,6 @@
 {
-  "id": "47cd9280-c6ff-4969-9d33-c1af4e06331f",
-  "prevId": "26beb467-a0a0-4852-9b22-57f34426f4b9",
+  "id": "81ef2ef1-e240-4d18-a175-3d2c157ba99a",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -108,6 +108,12 @@
         },
         "answer": {
           "name": "answer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hint": {
+          "name": "hint",
           "type": "text",
           "primaryKey": false,
           "notNull": true

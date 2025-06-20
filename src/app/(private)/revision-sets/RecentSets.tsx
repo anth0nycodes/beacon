@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/use-auth";
+"use client";
+
 import { createClient } from "@/utils/supabase/client";
 import { FileIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface RevisionSet {
   id: string;
@@ -20,6 +21,7 @@ const RecentSets = () => {
   const pathname = usePathname();
 
   const [revisionSets, setRevisionSets] = useState<RevisionSet[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchRecentSets = async () => {
     const userId = (await supabase.auth.getUser()).data.user?.id;
@@ -35,11 +37,24 @@ const RecentSets = () => {
     }
 
     setRevisionSets(data);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchRecentSets();
-  }, []);
+  }, [pathname]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-2">
+        <Skeleton className="w-full h-10" />
+        <Skeleton className="w-full h-10" />
+        <Skeleton className="w-full h-10" />
+        <Skeleton className="w-full h-10" />
+        <Skeleton className="w-full h-10" />
+      </div>
+    );
+  }
 
   if (revisionSets.length === 0) {
     return (

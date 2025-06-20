@@ -1,9 +1,88 @@
 {
-  "id": "26beb467-a0a0-4852-9b22-57f34426f4b9",
+  "id": "81ef2ef1-e240-4d18-a175-3d2c157ba99a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.chat_logs": {
+      "name": "chat_logs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "chat_role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revision_set_id": {
+          "name": "revision_set_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "chat_logs_user_id_users_id_fk": {
+          "name": "chat_logs_user_id_users_id_fk",
+          "tableFrom": "chat_logs",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "chat_logs_revision_set_id_revision_sets_id_fk": {
+          "name": "chat_logs_revision_set_id_revision_sets_id_fk",
+          "tableFrom": "chat_logs",
+          "tableTo": "revision_sets",
+          "columnsFrom": [
+            "revision_set_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.document_flashcards": {
       "name": "document_flashcards",
       "schema": "",
@@ -29,6 +108,12 @@
         },
         "answer": {
           "name": "answer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hint": {
+          "name": "hint",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -167,8 +252,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "file_hash": {
-          "name": "file_hash",
+        "file_key": {
+          "name": "file_key",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -421,13 +506,22 @@
     }
   },
   "enums": {
+    "public.chat_role": {
+      "name": "chat_role",
+      "schema": "public",
+      "values": [
+        "user",
+        "assistant"
+      ]
+    },
     "public.file_type": {
       "name": "file_type",
       "schema": "public",
       "values": [
         "pdf",
         "docx",
-        "txt"
+        "txt",
+        "pptx"
       ]
     },
     "public.plan": {
