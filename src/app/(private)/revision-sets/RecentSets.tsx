@@ -44,19 +44,17 @@ const RecentSets = () => {
     fetchRecentSets();
   }, [pathname]);
 
-  if (loading) {
-    return (
-      <div className="flex flex-col gap-2">
-        <Skeleton className="w-full h-10" />
-        <Skeleton className="w-full h-10" />
-        <Skeleton className="w-full h-10" />
-        <Skeleton className="w-full h-10" />
-        <Skeleton className="w-full h-10" />
-      </div>
-    );
-  }
-
   if (revisionSets.length === 0) {
+    if (loading) {
+      return (
+        <div className="flex flex-col gap-2">
+          <Skeleton className="w-full h-10" />
+          <Skeleton className="w-full h-10" />
+          <Skeleton className="w-full h-10" />
+          <Skeleton className="w-full h-10" />
+        </div>
+      );
+    }
     return (
       <div className="text-sm text-gray-500">
         No revision sets found. Start by creating a new revision set.
