@@ -6,7 +6,6 @@ import { MAX_FILES, useUploadedFileStore } from "@/store/uploadedFile";
 import {
   FileCheck,
   Type,
-  Link2,
   FileText,
   Trash2,
   Loader2,
@@ -14,12 +13,9 @@ import {
   Video,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { UploadedFile } from "@/components/custom-uploader";
+import { UploadedFile } from "@/types/file";
 import { toast } from "sonner";
-import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-
-const supabase = createClient();
 
 const FileLimitText = () => {
   const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
@@ -34,6 +30,9 @@ const FileLimitText = () => {
 export const ActiveFiles = () => {
   const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
   const [isGeneratingRevisionSet, setIsGeneratingRevisionSet] = useState(false);
+  const clearUploadedFiles = useUploadedFileStore(
+    (state) => state.clearUploadedFiles
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -73,6 +72,7 @@ export const ActiveFiles = () => {
       {uploadedFiles.length > 0 ? (
         <GenerateRevisionSetButton
           uploadedFiles={uploadedFiles}
+          clearUploadedFiles={clearUploadedFiles}
           isGeneratingRevisionSet={isGeneratingRevisionSet}
           setIsGeneratingRevisionSet={setIsGeneratingRevisionSet}
         />
@@ -83,82 +83,41 @@ export const ActiveFiles = () => {
 
 const GenerateRevisionSetButton = ({
   uploadedFiles,
+  clearUploadedFiles,
   isGeneratingRevisionSet,
   setIsGeneratingRevisionSet,
 }: {
   uploadedFiles: UploadedFile[];
+  clearUploadedFiles: () => void;
   isGeneratingRevisionSet: boolean;
   setIsGeneratingRevisionSet: (isGeneratingRevisionSet: boolean) => void;
 }) => {
   const router = useRouter();
-  const handleGenerateRevisionSet = async (uploadedFiles: UploadedFile[]) => {
+
+  const handleGenerateRevisionSet = async () => {
     try {
       setIsGeneratingRevisionSet(true);
       toast.loading("📝 Generating revision set...");
 
-      // Debug the API call
-      console.log("Sending to API:", {
-        fileUrl: uploadedFiles.map((file) => file.ufsUrl),
-        type: uploadedFiles.map((file) => file.type),
-      });
-
-      const response = await fetch("/api/extract-upload-type", {
+      const response = await fetch("/api/generate-revision-set", {
         method: "POST",
-        body: JSON.stringify({
-          fileUrl: uploadedFiles.map((file) => file.ufsUrl),
-          type: uploadedFiles.map((file) => file.type),
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uploadedFiles }),
       });
 
-      const contents = await response.json();
-      console.log("API Response:", contents); // Debug the response
-
-      // Create revision set
-      const { data: revisionSet, error: revisionSetError } = await supabase
-        .from("revision_sets")
-        .insert({
-          user_id: (await supabase.auth.getUser()).data.user?.id,
-          title: "New Revision Set",
-        })
-        .select()
-        .single();
-
-      if (revisionSetError) {
-        console.error("Revision set error:", revisionSetError);
-        throw new Error(
-          `Failed to create revision set: ${revisionSetError.message}`
-        );
+      if (!response.ok) {
+        throw new Error("Failed to create revision set");
       }
 
-      // Debug the documents insert
-      const documentsToInsert = uploadedFiles.map((file, index) => ({
-        content: contents[index],
-        original_filename: file.name,
-        ufs_url: file.ufsUrl,
-        file_type: getFileType(file.type),
-        file_key: file.key,
-        file_size: file.size,
-        revision_set_id: revisionSet.id,
-      }));
-      console.log("Documents to insert:", documentsToInsert);
-
-      const { data: documents, error: documentsError } = await supabase
-        .from("documents")
-        .insert(documentsToInsert);
-
-      if (documentsError) {
-        console.error("Documents error:", documentsError);
-        throw new Error(
-          `Failed to insert documents: ${documentsError.message}`
-        );
-      }
-      router.push(`/revision-sets/${revisionSet.id}`);
-      return documents;
+      const { revisionSetId } = await response.json();
+      router.push(`/revision-sets/${revisionSetId}`);
     } catch (error) {
-      console.error("Full error:", error);
+      console.error("Error generating revision set:", error);
+      router.push("/revision-sets");
       toast.error("Failed to generate revision set");
     } finally {
       setIsGeneratingRevisionSet(false);
+      clearUploadedFiles();
       toast.dismiss();
     }
   };
@@ -167,7 +126,7 @@ const GenerateRevisionSetButton = ({
     <Button
       disabled={isGeneratingRevisionSet}
       className="w-fit mx-auto"
-      onClick={() => handleGenerateRevisionSet(uploadedFiles)}
+      onClick={handleGenerateRevisionSet}
     >
       {isGeneratingRevisionSet ? (
         <div className="flex items-center gap-2">
@@ -217,19 +176,4 @@ const DeleteFile = ({ fileKey }: { fileKey: string }) => {
       <Trash2 className="size-5 text-destructive" />
     </Button>
   );
-};
-
-const getFileType = (mimeType: string): "pdf" | "docx" | "txt" | "pptx" => {
-  switch (mimeType) {
-    case "application/pdf":
-      return "pdf";
-    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      return "docx";
-    case "text/plain":
-      return "txt";
-    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-      return "pptx";
-    default:
-      return "txt"; // or handle unknown types appropriately
-  }
 };
