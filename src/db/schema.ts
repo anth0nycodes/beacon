@@ -72,6 +72,7 @@ export const documentFlashcards = pgTable("document_flashcards", {
     .references(() => revisionSets.id, { onDelete: "cascade" }),
   question: text("question").notNull(),
   answer: text("answer").notNull(),
+  hint: text("hint").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
