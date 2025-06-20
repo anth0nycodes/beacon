@@ -7,6 +7,7 @@ import React from "react";
 import { MAX_FILES, useUploadedFileStore } from "@/store/uploadedFile";
 import { toast } from "sonner";
 import { textUploadSchema } from "@/schemas/upload-options-schema";
+import { UploadedFile } from "@/types/file";
 
 interface FileUploadButtonProps {
   children: ReactNode;
@@ -19,22 +20,6 @@ interface TextUploadButtonProps extends FileUploadButtonProps {
   text: string;
   setText: (text: string) => void;
 }
-
-export type UploadedFile = {
-  appUrl: string;
-  customId?: string | null;
-  fileHash: string;
-  key: string;
-  lastModified?: number;
-  name: string;
-  serverData: {
-    fileUrl: string;
-  };
-  size: number;
-  type: string;
-  ufsUrl: string;
-  url: string;
-};
 
 export function FileUploadButton({
   children,

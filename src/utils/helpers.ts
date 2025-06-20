@@ -19,3 +19,18 @@ export const getURL = (path: string = "") => {
   // Concatenate the URL and the path.
   return path ? `${url}/${path}` : url;
 };
+
+export const getFileType = (mimeType: string): "pdf" | "docx" | "txt" | "pptx" => {
+  switch (mimeType) {
+    case "application/pdf":
+      return "pdf";
+    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      return "docx";
+    case "text/plain":
+      return "txt";
+    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+      return "pptx";
+    default:
+      return "txt"; // or handle unknown types appropriately
+  }
+};
