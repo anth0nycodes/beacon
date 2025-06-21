@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import React from "react";
-import { MAX_FILES, useUploadedFileStore } from "@/store/uploadedFile";
+import { useUploadedFileStore } from "@/store/uploadedFile";
 import { toast } from "sonner";
 import { textUploadSchema } from "@/schemas/upload-options-schema";
 import { UploadedFile } from "@/types/file";

@@ -185,7 +185,7 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
                               <li className="mb-1 break-words">{children}</li>
                             ),
                             code: ({ children }) => (
-                              <code className="bg-gray-100 dark:bg-gray-700 rounded px-1 py-0.5 break-words block w-full overflow-x-auto">
+                              <code className="bg-muted-foreground/15 rounded px-1 py-0.5 break-words block w-full overflow-x-auto">
                                 {children}
                               </code>
                             ),

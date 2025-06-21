@@ -3,6 +3,8 @@ import { createClient } from "@/utils/supabase/server";
 import React from "react";
 import DocumentIframe from "./DocumentIframe";
 import { FileIcon } from "lucide-react";
+import { TypographyBody } from "@/components/ui/typography";
+import { cn } from "@/lib/utils";
 
 export const DocumentsViewer = async ({ id }: { id: string }) => {
   const supabase = await createClient();
@@ -25,11 +27,16 @@ export const DocumentsViewer = async ({ id }: { id: string }) => {
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold">{revisionSet?.title}</h2>
-        <p className="text-sm text-muted-foreground">
-          {revisionSet?.description}
-        </p>
+      <div
+        className={cn("flex flex-col", revisionSet?.description ? "gap-2" : "")}
+      >
+        <div className="flex flex-col gap-1">
+          <h2 className="text-2xl font-bold">{revisionSet?.title}</h2>
+          <TypographyBody className="text-muted-foreground">
+            {/* TODO: Add character limit for description in rename dialog */}
+            {revisionSet?.description}
+          </TypographyBody>
+        </div>
         <p className="text-sm text-muted-foreground">
           Created on {new Date(revisionSet?.created_at).toLocaleDateString()}
         </p>

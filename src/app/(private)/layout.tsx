@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { ClientProviders } from "@/components/ClientProviders";
 import PrivateHeader from "@/components/PrivateHeader";
-import PrivateDashboardLayout from "@/components/PrivateSidebar";
+import PrivateSidebar from "@/components/PrivateSidebar";
 import { createClient } from "@/utils/supabase/server";
 
 const PrivateLayout = async ({ children }: { children: React.ReactNode }) => {
@@ -18,12 +18,12 @@ const PrivateLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ClientProviders>
-      <PrivateDashboardLayout>
+      <PrivateSidebar>
         <div className="flex flex-col flex-1 h-full">
           <PrivateHeader />
           <main className="flex-1 p-4 md:p-6">{children}</main>
         </div>
-      </PrivateDashboardLayout>
+      </PrivateSidebar>
     </ClientProviders>
   );
 };

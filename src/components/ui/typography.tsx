@@ -134,7 +134,7 @@ export function TypographyBody({
   return (
     <Comp
       className={cn(
-        "text-base leading-[130%] tracking-[-0.01rem]",
+        "text-sm sm:text-base leading-[130%] tracking-[-0.01rem]",
         typographyVariants({ weight, className })
       )}
       {...props}
