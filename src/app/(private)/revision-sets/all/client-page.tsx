@@ -225,6 +225,8 @@ export const AllRevisionSetsClient = ({ userId }: { userId: string }) => {
   }, [revisionSets]);
 
   if (isPending) {
+    // TODO: add a loading spinner, and figure out way to make it so it so when
+    // its loading or fetching you can still be focused on the input
     return (
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
@@ -235,8 +237,53 @@ export const AllRevisionSetsClient = ({ userId }: { userId: string }) => {
         </div>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row gap-4">
-            <Skeleton className="h-9 w-full sm:w-[89%]" />
-            <Skeleton className="h-9 w-full sm:w-32" />
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                placeholder="Search by title..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex gap-2 w-full sm:w-auto"
+                >
+                  <ListFilter className="h-4 w-4" />
+                  Sort & Filter
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Sort By</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {sortOptions.map((option) => (
+                  <DropdownMenuItem
+                    key={option.value}
+                    className="cursor-pointer"
+                    onSelect={() => setSortOption(option.value)}
+                  >
+                    {option.label}
+                  </DropdownMenuItem>
+                ))}
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuLabel>Filter by Type</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {uniqueFileTypes.map((type) => (
+                  <DropdownMenuItem
+                    key={type}
+                    className="cursor-pointer"
+                    onSelect={() => setFileTypeFilter(type)}
+                  >
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {Array.from({ length: 12 }).map((_, i) => (
@@ -254,21 +301,77 @@ export const AllRevisionSetsClient = ({ userId }: { userId: string }) => {
 
   if (!revisionSets || revisionSets.length === 0) {
     return (
-      <Card>
-        <CardContent className="pt-6">
-          <div className="text-center py-12">
-            <FileIcon className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-            <TypographyH4 className="mb-2">No revision sets found</TypographyH4>
-            <TypographyBody className="text-muted-foreground mb-4">
-              Update your search or filter settings, or create a new revision
-              set.
-            </TypographyBody>
-            <Button asChild>
-              <Link href="/revision-sets">Create New Set</Link>
-            </Button>
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center justify-between">
+          <TypographyH4 weight="bold">My Revision Sets</TypographyH4>
+          <Button asChild>
+            <Link href="/revision-sets">Create New Set</Link>
+          </Button>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              placeholder="Search by title..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
           </div>
-        </CardContent>
-      </Card>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="flex gap-2 w-full sm:w-auto">
+                <ListFilter className="h-4 w-4" />
+                Sort & Filter
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Sort By</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {sortOptions.map((option) => (
+                <DropdownMenuItem
+                  key={option.value}
+                  className="cursor-pointer"
+                  onSelect={() => setSortOption(option.value)}
+                >
+                  {option.label}
+                </DropdownMenuItem>
+              ))}
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuLabel>Filter by Type</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {uniqueFileTypes.map((type) => (
+                <DropdownMenuItem
+                  key={type}
+                  className="cursor-pointer"
+                  onSelect={() => setFileTypeFilter(type)}
+                >
+                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center py-12">
+              <FileIcon className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+              <TypographyH4 className="mb-2">
+                No revision sets found
+              </TypographyH4>
+              <TypographyBody className="text-muted-foreground mb-4">
+                Update your search or filter settings, or create a new revision
+                set.
+              </TypographyBody>
+              <Button asChild>
+                <Link href="/revision-sets">Create New Set</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
