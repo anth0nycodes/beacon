@@ -273,6 +273,8 @@ export const AllRevisionSetsClient = ({ userId }: { userId: string }) => {
 
                 <DropdownMenuLabel>Filter by Type</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                {/* TODO: fix bug where when you initially select a type, thats 
+                the only one it shows in filter menu when reopening */}
                 {uniqueFileTypes.map((type) => (
                   <DropdownMenuItem
                     key={type}
