@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       .from("revision_sets")
       .insert({
         user_id: (await supabase.auth.getUser()).data.user?.id,
-        title: "New Revision Set",
+        title: uploadedFiles[0].name,
       })
       .select()
       .single();

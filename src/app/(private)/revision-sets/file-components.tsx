@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { UploadedFile } from "@/types/file";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { TypographyBody, TypographyCaption } from "@/components/ui/typography";
 
 const FileLimitText = () => {
   const uploadedFiles = useUploadedFileStore((state) => state.uploadedFiles);
@@ -49,11 +50,13 @@ export const ActiveFiles = () => {
                     <div className="flex-shrink-0">
                       <UploadedFileIcon type={file.type} />
                     </div>
-                    <div className="flex-1 min-w-0 overflow-hidden">
-                      {/* TODO: fix text truncation */}
-                      <p className="truncate text-sm sm:text-base text-emerald-800 font-medium">
+                    <div className="flex-1">
+                      <TypographyBody
+                        weight="medium"
+                        className="truncate text-emerald-800"
+                      >
                         {file.name}
-                      </p>
+                      </TypographyBody>
                     </div>
                     <div className="flex-shrink-0">
                       <DeleteFile fileKey={file.key} />

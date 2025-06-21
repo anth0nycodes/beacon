@@ -10,7 +10,7 @@ const RevisionSetsPage = () => {
           Ready to Revise? Prepare your{" "}
           <span className="text-emerald-500">notes</span> below
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-gray-500">
+        <p className="text-base sm:text-lg md:text-xl text-muted-foreground ">
           Supercharge your study sessions. Upload your files or content below
           and watch it transform into interactive study materials.
         </p>

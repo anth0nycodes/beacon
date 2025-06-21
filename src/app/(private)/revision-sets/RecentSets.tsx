@@ -1,11 +1,12 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
-import { FileIcon } from "lucide-react";
+import { Folder } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
 
 interface RevisionSet {
   id: string;
@@ -20,43 +21,44 @@ const RecentSets = () => {
   const supabase = createClient();
   const pathname = usePathname();
 
-  const [revisionSets, setRevisionSets] = useState<RevisionSet[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: revisionSets, isLoading } = useQuery({
+    queryKey: ["recent-revision-sets"],
+    queryFn: async () => {
+      const userId = (await supabase.auth.getUser()).data.user?.id;
+      const { data, error } = await supabase
+        .from("revision_sets")
+        .select()
+        .eq("user_id", userId)
+        .limit(8)
+        .order("created_at", { ascending: false });
 
-  const fetchRecentSets = async () => {
-    const userId = (await supabase.auth.getUser()).data.user?.id;
-    const { data, error } = await supabase
-      .from("revision_sets")
-      .select()
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false });
+      if (error) {
+        console.error("Error fetching revision sets:", error);
+        return;
+      }
 
-    if (error) {
-      console.error("Error fetching revision sets:", error);
-      return;
-    }
+      return data;
+    },
+  });
 
-    setRevisionSets(data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchRecentSets();
-  }, [pathname]);
-
-  if (revisionSets.length === 0) {
-    if (loading) {
-      return (
-        <div className="flex flex-col gap-2">
-          <Skeleton className="w-full h-10" />
-          <Skeleton className="w-full h-10" />
-          <Skeleton className="w-full h-10" />
-          <Skeleton className="w-full h-10" />
-        </div>
-      );
-    }
+  if (isLoading) {
     return (
-      <div className="text-sm text-gray-500">
+      <div className="flex flex-col gap-2">
+        <Skeleton className="w-full h-9" />
+        <Skeleton className="w-full h-9" />
+        <Skeleton className="w-full h-9" />
+        <Skeleton className="w-full h-9" />
+        <Skeleton className="w-full h-9" />
+        <Skeleton className="w-full h-9" />
+        <Skeleton className="w-full h-9" />
+        <Skeleton className="w-full h-9" />
+      </div>
+    );
+  }
+
+  if (revisionSets?.length === 0) {
+    return (
+      <div className="text-sm text-muted-foreground">
         No revision sets found. Start by creating a new revision set.
       </div>
     );
@@ -64,7 +66,7 @@ const RecentSets = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      {revisionSets?.map((revisionSet) => {
+      {revisionSets?.map((revisionSet: RevisionSet) => {
         const isActive = pathname === `/revision-sets/${revisionSet.id}`;
         return (
           <Link
@@ -74,12 +76,12 @@ const RecentSets = () => {
               ${
                 isActive
                   ? "bg-emerald-100 text-emerald-700"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-muted-foreground hover:bg-gray-100"
               }
             `}
           >
-            <FileIcon className="w-4 h-4" aria-hidden="true" />
-            <p>{revisionSet.title}</p>
+            <Folder className="size-4" aria-hidden="true" />
+            <p className="truncate max-w-[20ch]">{revisionSet.title}</p>
           </Link>
         );
       })}

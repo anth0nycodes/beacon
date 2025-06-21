@@ -18,6 +18,7 @@ import {
   FileUploadButton,
   TextUploadButton,
 } from "@/components/custom-uploader";
+import { TypographyBody, TypographyCaption } from "@/components/ui/typography";
 
 interface OptionsProps {
   icon: React.ReactNode;
@@ -38,7 +39,7 @@ const UploadOptions = () => {
 
   const options: OptionsProps[] = [
     {
-      icon: <FileText className="size-8 text-emerald-500" />,
+      icon: <FileText className="size-6 text-emerald-500" />,
       title: "Document",
       description: ".pdf, .docx",
       dialogTitle: "Upload Document",
@@ -46,7 +47,7 @@ const UploadOptions = () => {
       dialogSubmitButtonTitle: "Upload Document",
     },
     {
-      icon: <Presentation className="size-8 text-emerald-500" />,
+      icon: <Presentation className="size-6 text-emerald-500" />,
       title: "Presentation",
       description: ".pptx",
       dialogTitle: "Upload Presentation",
@@ -55,7 +56,7 @@ const UploadOptions = () => {
       dialogSubmitButtonTitle: "Upload Presentation",
     },
     {
-      icon: <Type className="size-8 text-emerald-500" />,
+      icon: <Type className="size-6 text-emerald-500" />,
       title: "Text",
       description: "Paste text directly",
       dialogTitle: "Add Text Note",
@@ -72,6 +73,7 @@ const UploadOptions = () => {
           <div className="flex flex-col items-center gap-4">
             <Textarea
               id={option.title}
+              // disabled={isUploading}
               className={cn(
                 inputClassName,
                 "min-h-[8rem] max-h-[8rem] resize-none sm:min-h-[10rem] sm:max-h-[10rem]"
@@ -144,24 +146,16 @@ const UploadOptions = () => {
           onOpenChange={(open) => setOpenDialog(open ? option.title : null)}
         >
           <DialogTrigger asChild>
-            <div
-              className={cn(
-                "group flex flex-col items-center justify-center p-6",
-                "min-h-[180px] w-full",
-                "rounded-xl border border-gray-200 bg-white/50",
-                "hover:bg-emerald-400/5 hover:border-emerald-600/50",
-                "transition-all duration-200 ease-in-out",
-                "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2",
-                "cursor-pointer"
-              )}
-            >
-              <div className="mb-4">{option.icon}</div>
-              <h3 className="text-lg font-semibold mb-2 text-center">
-                {option.title}
-              </h3>
-              <p className="text-sm text-gray-500 text-center">
-                {option.description}
-              </p>
+            <div className="group flex p-2 cursor-pointer gap-3 border border-gray-200 rounded-lg hover:border-emerald-500 transition-all duration-200">
+              <div className="border-2 border-gray-200 rounded-lg p-1">
+                {option.icon}
+              </div>
+              <div className="flex flex-col">
+                <TypographyBody weight="semibold">
+                  {option.title}
+                </TypographyBody>
+                <TypographyCaption>{option.description}</TypographyCaption>
+              </div>
             </div>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md p-6">
@@ -169,7 +163,7 @@ const UploadOptions = () => {
               <DialogTitle className="text-lg font-bold">
                 {option.dialogTitle}
               </DialogTitle>
-              <DialogDescription className="text-base text-gray-500 mb-2">
+              <DialogDescription className="text-base text-muted-foreground mb-2">
                 {option.dialogDescription}
               </DialogDescription>
             </DialogHeader>
