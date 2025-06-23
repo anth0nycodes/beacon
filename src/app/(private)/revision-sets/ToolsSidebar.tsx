@@ -17,6 +17,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
   return (
@@ -34,14 +39,14 @@ export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
           <CreditCard className="size-4" aria-hidden="true" />
           <TypographyCaption>Flashcards</TypographyCaption>
         </TabsTrigger>
-        <Popover>
-          <PopoverTrigger asChild>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <div className="data-[state=active]:bg-background xl:hidden cursor-pointer dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
               <ChevronDown className="size-4" aria-hidden="true" />
               <TypographyCaption>More Tools</TypographyCaption>
             </div>
-          </PopoverTrigger>
-          <PopoverContent className="w-fit p-2 xl:hidden" align="end">
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-fit p-2 xl:hidden" align="end">
             <div className="flex flex-col gap-1">
               <TabsTrigger className="justify-start h-8" value="summary">
                 <BookText className="size-4" aria-hidden="true" />
@@ -56,8 +61,8 @@ export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
                 <TypographyCaption>Notes</TypographyCaption>
               </TabsTrigger>
             </div>
-          </PopoverContent>
-        </Popover>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <TabsTrigger className="hidden xl:flex" value="quiz">
           <BookOpenCheck className="size-4" aria-hidden="true" />
           <TypographyCaption>Quiz</TypographyCaption>
