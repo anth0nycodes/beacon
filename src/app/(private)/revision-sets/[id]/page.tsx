@@ -33,12 +33,25 @@ const RevisionSetPage = async ({
   }
 
   return (
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel minSize={40} maxSize={80} defaultSize={50}>
+    <ResizablePanelGroup
+      className="!flex-col gap-6 lg:gap-0 lg:!flex-row"
+      direction="horizontal"
+    >
+      <ResizablePanel
+        className="!basis-auto lg:!basis-0"
+        minSize={40}
+        maxSize={80}
+        defaultSize={50}
+      >
         <DocumentsViewer id={id} />
       </ResizablePanel>
-      <ResizableHandle className="mx-4" withHandle />
-      <ResizablePanel minSize={35} maxSize={60} defaultSize={50}>
+      <ResizableHandle className="mx-4 hidden lg:flex" withHandle />
+      <ResizablePanel
+        className="!basis-auto lg:!basis-0"
+        minSize={35}
+        maxSize={60}
+        defaultSize={50}
+      >
         <ToolsSidebar revisionSetId={id} />
       </ResizablePanel>
     </ResizablePanelGroup>

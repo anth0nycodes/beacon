@@ -8,16 +8,14 @@ import ReactMarkdown from "react-markdown";
 import { createClient } from "@/utils/supabase/client";
 import { useChat } from "@ai-sdk/react";
 import { MessageCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Form } from "@/components/ui/form";
 import { Card } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
 
 export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
   const [revisionSetDocumentContent, setRevisionSetDocumentContent] = useState<
     string | null
   >(null);
@@ -25,15 +23,6 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
     useState<string>("");
   const [initialMessages, setInitialMessages] = useState<ChatMessage[]>([]);
   const form = useForm();
-  const { messages, input, handleInputChange, handleSubmit, status } = useChat({
-    body: {
-      revisionSetId,
-      revisionSetDocumentContent,
-    },
-    initialMessages,
-  });
-
-  const hasMessages = messages && messages.length > 0;
 
   type ChatMessage = {
     id: string;
@@ -42,40 +31,45 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
     revision_set_id: string;
   };
 
-  function LoadingDots() {
-    return (
-      <div className="flex space-x-1 items-center">
-        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-      </div>
-    );
-  }
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  // Query for documents
+  const { data: revisionSetDocuments, error: documentsError } = useQuery({
+    queryKey: ["revision-set-documents", revisionSetId],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("documents")
+        .select()
+        .eq("revision_set_id", revisionSetId);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+      if (error) throw error;
+      if (!data) throw new Error("Documents not found");
+      return data;
+    },
+    enabled: !!revisionSetId,
+  });
 
+  // Query for chat history
+  const { data: chatHistory, error: chatError } = useQuery({
+    queryKey: ["chat-history", revisionSetId],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("chat_logs")
+        .select()
+        .eq("revision_set_id", revisionSetId)
+        .order("created_at", { ascending: true });
+
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!revisionSetId,
+  });
+
+  // Process data when both queries are successful
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, status]);
-
-  useEffect(() => {
-    const loadFileAndHistory = async () => {
+    if (revisionSetDocuments && chatHistory) {
       try {
-        const supabase = createClient();
-
-        // Load the document for this revision set
-        const { data: revisionSetDocuments, error: documentsError } =
-          await supabase
-            .from("documents")
-            .select()
-            .eq("revision_set_id", revisionSetId);
-
-        if (documentsError) throw documentsError;
-        if (!revisionSetDocuments) throw new Error("File not found");
-
+        // Set document content
         setRevisionSetDocumentName(
           revisionSetDocuments.map((doc) => doc.original_filename).join(", ")
         );
@@ -90,16 +84,7 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
             .join("\n\n")
         );
 
-        // Load chat history
-        const { data: chatHistory, error: chatError } = await supabase
-          .from("chat_logs")
-          .select()
-          .eq("revision_set_id", revisionSetId)
-          .order("created_at", { ascending: true });
-
-        if (chatError) throw chatError;
-
-        // Map chat history to ChatMessage[]
+        // Set initial messages
         const historyMessages = chatHistory.map((msg) => ({
           id: msg.id.toString(),
           role: msg.role,
@@ -109,17 +94,56 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
 
         setInitialMessages(historyMessages);
       } catch (error) {
-        console.error("Error loading file or chat history:", error);
-        toast.error("Failed to load file or chat history");
-      } finally {
-        setIsLoading(false);
+        console.error("Error processing data:", error);
+        toast.error("Failed to process data");
       }
-    };
+    }
+  }, [revisionSetDocuments, chatHistory]);
 
-    loadFileAndHistory();
-  }, [revisionSetId, router]);
+  // Handle errors
+  useEffect(() => {
+    if (documentsError) {
+      console.error("Error loading documents:", documentsError);
+      toast.error("Failed to load documents");
+    }
+    if (chatError) {
+      console.error("Error loading chat history:", chatError);
+      toast.error("Failed to load chat history");
+    }
+  }, [documentsError, chatError]);
+
+  const { messages, input, handleInputChange, handleSubmit, status } = useChat({
+    body: {
+      revisionSetId,
+      revisionSetDocumentContent,
+    },
+    initialMessages,
+  });
+
+  const hasMessages = messages && messages.length > 0;
+
+  function LoadingDots() {
+    return (
+      <div className="flex space-x-1 items-center">
+        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+      </div>
+    );
+  }
+
+  useEffect(() => {
+    const messageContainer = document.getElementById("message-container");
+    if (messageContainer) {
+      messageContainer.scrollTo({
+        top: messageContainer.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
 
   const isStreaming = status === "submitted" || status === "streaming";
+  const isLoading = !revisionSetDocuments || !chatHistory;
 
   if (isLoading) {
     return (
@@ -131,7 +155,10 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
 
   return (
     <Card className="w-full pb-0 md:h-[calc(100vh-142px)] h-full flex flex-col relative">
-      <div className="flex-1 px-4 space-y-10 lg:space-y-4 overflow-y-auto overscroll-y-none flex flex-col">
+      <div
+        id="message-container"
+        className="flex-1 px-4 space-y-10 lg:space-y-4 overflow-y-auto overscroll-y-none flex flex-col"
+      >
         {!hasMessages && (
           <div className="flex flex-col gap-2 items-center justify-center text-foreground italic h-full">
             <MessageCircle className="size-12" aria-hidden="true" />
@@ -214,7 +241,6 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
             </div>
           </div>
         )}
-        <div ref={messagesEndRef} />
       </div>
       <Form {...form}>
         <form
@@ -225,7 +251,6 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
             className="flex-1 p-2 rounded border border-zinc-300 dark:border-zinc-800 focus:outline-none focus:ring"
             value={input}
             placeholder="Type your question..."
-            disabled={isStreaming}
             onChange={handleInputChange}
           />
           <Button
