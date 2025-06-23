@@ -251,7 +251,6 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
             className="flex-1 p-2 rounded border border-zinc-300 dark:border-zinc-800 focus:outline-none focus:ring"
             value={input}
             placeholder="Type your question..."
-            disabled={isStreaming}
             onChange={handleInputChange}
           />
           <Button
