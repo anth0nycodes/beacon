@@ -20,7 +20,7 @@ Format your response in Markdown with:
 
   try {
     const { text } = await generateText({
-      model: openai("gpt-4o-mini"),
+      model: openai("gpt-4.1-nano"),
       system: SYSTEM_MESSAGE,
       prompt: `Please create a study summary of the following revision set content: ${revisionSetDocumentContent}`,
     });
