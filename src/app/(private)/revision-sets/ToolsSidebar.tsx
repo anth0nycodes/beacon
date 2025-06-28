@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import FlashcardsComponent from "./FlashcardsComponent";
+import SummaryComponent from "./SummaryComponent";
 
 export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
   return (
@@ -72,7 +73,9 @@ export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
       <TabsContent value="chat">
         <ChatComponent revisionSetId={revisionSetId} />
       </TabsContent>
-      <TabsContent value="summary">Summary</TabsContent>
+      <TabsContent className="h-full" value="summary">
+        <SummaryComponent revisionSetId={revisionSetId} />
+      </TabsContent>
       <TabsContent className="h-full" value="flashcards">
         <FlashcardsComponent revisionSetId={revisionSetId} />
       </TabsContent>

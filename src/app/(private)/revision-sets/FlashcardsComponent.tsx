@@ -24,7 +24,7 @@ const FlashcardsComponent = ({ revisionSetId }: { revisionSetId: string }) => {
   const [isFlashcardFlipped, setIsFlashcardFlipped] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
-
+  const [hasTriggeredCreation, setHasTriggeredCreation] = useState(false);
   const queryClient = useQueryClient();
   const supabase = createClient();
 
@@ -146,6 +146,7 @@ const FlashcardsComponent = ({ revisionSetId }: { revisionSetId: string }) => {
         } catch (error) {
           console.error("Error creating flashcards:", error);
           toast.error("Failed to create flashcards");
+          throw error;
         }
       },
       onSuccess: () => {
@@ -160,15 +161,18 @@ const FlashcardsComponent = ({ revisionSetId }: { revisionSetId: string }) => {
     if (
       revisionSetDocumentContent &&
       flashcards?.length === 0 &&
-      !isCreatingFlashcards
+      !isCreatingFlashcards &&
+      !hasTriggeredCreation
     ) {
       createFlashcards();
+      setHasTriggeredCreation(true);
     }
   }, [
     revisionSetDocumentContent,
     flashcards,
     isCreatingFlashcards,
     createFlashcards,
+    hasTriggeredCreation,
   ]);
 
   if (isLoading || isCreatingFlashcards) {
