@@ -146,6 +146,7 @@ const FlashcardsComponent = ({ revisionSetId }: { revisionSetId: string }) => {
         } catch (error) {
           console.error("Error creating flashcards:", error);
           toast.error("Failed to create flashcards");
+          throw error;
         }
       },
       onSuccess: () => {

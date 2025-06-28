@@ -22,7 +22,7 @@ Format your response in Markdown with:
     const { text } = await generateText({
       model: openai("gpt-4.1-nano"),
       system: SYSTEM_MESSAGE,
-      prompt: `Please create a study summary of the following revision set content: ${revisionSetDocumentContent}`,
+      prompt: `Please create a revision set summary of the following revision set content: ${revisionSetDocumentContent}`,
     });
 
     // Store the markdown text directly (no JSON parsing needed)
