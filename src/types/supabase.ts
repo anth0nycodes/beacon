@@ -94,25 +94,19 @@ export type Database = {
           created_at: string
           id: string
           revision_set_id: string
-          status: Database["public"]["Enums"]["status"]
           summary_text: string
-          updated_at: string | null
         }
         Insert: {
           created_at?: string
           id?: string
           revision_set_id: string
-          status: Database["public"]["Enums"]["status"]
           summary_text: string
-          updated_at?: string | null
         }
         Update: {
           created_at?: string
           id?: string
           revision_set_id?: string
-          status?: Database["public"]["Enums"]["status"]
           summary_text?: string
-          updated_at?: string | null
         }
         Relationships: [
           {
@@ -279,7 +273,6 @@ export type Database = {
       chat_role: "user" | "assistant"
       file_type: "pdf" | "docx" | "txt" | "pptx"
       plan: "free" | "plus" | "pro"
-      status: "processing" | "completed" | "failed"
       subscription_status: "active" | "canceled"
     }
     CompositeTypes: {
@@ -399,7 +392,6 @@ export const Constants = {
       chat_role: ["user", "assistant"],
       file_type: ["pdf", "docx", "txt", "pptx"],
       plan: ["free", "plus", "pro"],
-      status: ["processing", "completed", "failed"],
       subscription_status: ["active", "canceled"],
     },
   },

@@ -8,11 +8,6 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const fileTypeEnum = pgEnum("file_type", ["pdf", "docx", "txt", "pptx"]);
-export const statusEnum = pgEnum("status", [
-  "processing",
-  "completed",
-  "failed",
-]);
 export const planEnum = pgEnum("plan", ["free", "plus", "pro"]);
 export const subscriptionStatusEnum = pgEnum("subscription_status", [
   "active",
@@ -60,9 +55,7 @@ export const documentSummaries = pgTable("document_summaries", {
     .notNull()
     .references(() => revisionSets.id, { onDelete: "cascade" }),
   summaryText: text("summary_text").notNull(),
-  status: statusEnum("status").notNull(), // (e.g., "pending", "completed", "failed")
   createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const documentFlashcards = pgTable("document_flashcards", {
