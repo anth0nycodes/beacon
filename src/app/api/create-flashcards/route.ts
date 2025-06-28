@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const SYSTEM_MESSAGE = `
      You are a helpful assistant that creates flashcards for a revision set.
-     You will be given a revision set document content and you will need to create 10 flashcards TOTAL for it.
+     You will be given revision set document(s) contents, and YOU WILL NEED TO CREATE A TOTAL OF 10 flashcards. NOTHING MORE, NOTHING LESS.
      The flashcards should be in a JSON array format which includes the question, answer, and hint.
      ONLY return the JSON array of flashcards, no other text or comments.
      The flashcards should be in the following format:

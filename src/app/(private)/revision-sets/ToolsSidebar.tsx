@@ -73,7 +73,7 @@ export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
         <ChatComponent revisionSetId={revisionSetId} />
       </TabsContent>
       <TabsContent value="summary">Summary</TabsContent>
-      <TabsContent value="flashcards">
+      <TabsContent className="h-full" value="flashcards">
         <FlashcardsComponent revisionSetId={revisionSetId} />
       </TabsContent>
       <TabsContent value="quiz">Quiz</TabsContent>
