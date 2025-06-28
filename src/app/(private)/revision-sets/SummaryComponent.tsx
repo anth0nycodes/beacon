@@ -12,6 +12,7 @@ const SummaryComponent = ({ revisionSetId }: { revisionSetId: string }) => {
   const [revisionSetDocumentContent, setRevisionSetDocumentContent] = useState<
     string | null
   >(null);
+  const [hasTriggeredCreation, setHasTriggeredCreation] = useState(false);
   const supabase = createClient();
   const queryClient = useQueryClient();
 
@@ -65,7 +66,6 @@ const SummaryComponent = ({ revisionSetId }: { revisionSetId: string }) => {
   }, [revisionSetDocuments]);
 
   const { mutate: generateSummary, isPending: isGeneratingSummary } =
-    // TODO: figure out why this is being called twice
     useMutation({
       mutationFn: async () => {
         try {
@@ -99,15 +99,18 @@ const SummaryComponent = ({ revisionSetId }: { revisionSetId: string }) => {
     if (
       revisionSetDocumentContent &&
       summary?.length === 0 &&
-      !isGeneratingSummary
+      !isGeneratingSummary &&
+      !hasTriggeredCreation
     ) {
       generateSummary();
+      setHasTriggeredCreation(true);
     }
   }, [
     revisionSetDocumentContent,
     summary,
     isGeneratingSummary,
     generateSummary,
+    hasTriggeredCreation,
   ]);
 
   if (isGeneratingSummary || isLoading) {
