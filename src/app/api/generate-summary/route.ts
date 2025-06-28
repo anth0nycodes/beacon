@@ -25,33 +25,31 @@ Format your response in Markdown with:
       prompt: `Please create a revision set summary of the following revision set content: ${revisionSetDocumentContent}`,
     });
 
-    // Store the markdown text directly (no JSON parsing needed)
-    const { data, error } = await supabase
+    const { error: insertError } = await supabase
       .from("document_summaries")
       .insert({
         revision_set_id: revisionSetId,
-        summary_text: text, // Store the markdown text directly
+        summary_text: text,
       })
-      .select(); // Get the inserted record back
+      .select();
 
-    if (error) {
-      console.error("Database error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (insertError) {
+      return NextResponse.json({
+        message: "Failed to generate summary",
+        details: insertError.message,
+      });
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        summary: text,
-        data,
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      message: "Summary generated successfully",
+    });
   } catch (error) {
-    console.error("Error generating summary:", error);
-    return NextResponse.json(
-      { error: "Failed to generate summary" },
-      { status: 500 }
-    );
+    console.error("Error in generate-summary route:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({
+      message: "Failed to generate summary",
+      details: errorMessage,
+    });
   }
 }
