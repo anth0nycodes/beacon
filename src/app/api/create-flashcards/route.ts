@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     const { text } = await generateText({
       model: openai("gpt-4o-mini"),
-      prompt: `Create flashcards for the following revision set: ${revisionSetDocumentContent}`,
+      prompt: `Create flashcards for the following revision set content: ${revisionSetDocumentContent}`,
       system: SYSTEM_MESSAGE,
       temperature: 0.3,
     });
