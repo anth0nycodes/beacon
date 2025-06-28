@@ -16,7 +16,7 @@ import { Card } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 
 export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
-  const [revisionSetDocumentContent, setRevisionSetDocumentContent] = useState<
+  const [revisionSetChatContent, setRevisionSetChatContent] = useState<
     string | null
   >(null);
   const [revisionSetDocumentName, setRevisionSetDocumentName] =
@@ -73,7 +73,7 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
         setRevisionSetDocumentName(
           revisionSetDocuments.map((doc) => doc.original_filename).join(", ")
         );
-        setRevisionSetDocumentContent(
+        setRevisionSetChatContent(
           revisionSetDocuments
             .map(
               (doc, idx) =>
@@ -115,7 +115,7 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
     body: {
       revisionSetId,
-      revisionSetDocumentContent,
+      revisionSetChatContent,
     },
     initialMessages,
   });

@@ -12,16 +12,13 @@ import {
 } from "lucide-react";
 import { ChatComponent } from "./ChatComponent";
 import { TypographyCaption } from "@/components/ui/typography";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import FlashcardsComponent from "./FlashcardsComponent";
 
 export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
   return (
@@ -76,7 +73,9 @@ export const ToolsSidebar = ({ revisionSetId }: { revisionSetId: string }) => {
         <ChatComponent revisionSetId={revisionSetId} />
       </TabsContent>
       <TabsContent value="summary">Summary</TabsContent>
-      <TabsContent value="flashcards">Flashcards</TabsContent>
+      <TabsContent className="h-full" value="flashcards">
+        <FlashcardsComponent revisionSetId={revisionSetId} />
+      </TabsContent>
       <TabsContent value="quiz">Quiz</TabsContent>
       <TabsContent value="notes">Notes</TabsContent>
     </Tabs>
