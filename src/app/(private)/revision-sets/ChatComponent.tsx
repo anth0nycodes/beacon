@@ -16,7 +16,7 @@ import { Card } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 
 export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
-  const [revisionSetChatContent, setRevisionSetChatContent] = useState<
+  const [revisionSetDocumentContent, setRevisionSetDocumentContent] = useState<
     string | null
   >(null);
   const [revisionSetDocumentName, setRevisionSetDocumentName] =
@@ -38,7 +38,7 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("documents")
-        .select()
+        .select("content, original_filename")
         .eq("revision_set_id", revisionSetId);
 
       if (error) throw error;
@@ -73,13 +73,14 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
         setRevisionSetDocumentName(
           revisionSetDocuments.map((doc) => doc.original_filename).join(", ")
         );
-        setRevisionSetChatContent(
+        setRevisionSetDocumentContent(
           revisionSetDocuments
             .map(
               (doc, idx) =>
-                `---\nDocument ${idx + 1}: ${doc.original_filename}\n---\n${
-                  doc.content
-                }`
+                `Document ${idx + 1}: ${doc.original_filename}\n\n
+              --------------------------------
+              Document Content:
+              ${doc.content}`
             )
             .join("\n\n")
         );
@@ -115,7 +116,7 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
     body: {
       revisionSetId,
-      revisionSetChatContent,
+      revisionSetDocumentContent,
     },
     initialMessages,
   });
