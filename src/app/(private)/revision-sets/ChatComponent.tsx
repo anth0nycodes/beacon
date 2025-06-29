@@ -19,8 +19,6 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
   const [revisionSetDocumentContent, setRevisionSetDocumentContent] = useState<
     string | null
   >(null);
-  const [revisionSetDocumentName, setRevisionSetDocumentName] =
-    useState<string>("");
   const [initialMessages, setInitialMessages] = useState<ChatMessage[]>([]);
   const form = useForm();
 
@@ -69,10 +67,6 @@ export const ChatComponent = ({ revisionSetId }: { revisionSetId: string }) => {
   useEffect(() => {
     if (revisionSetDocuments && chatHistory) {
       try {
-        // Set document content
-        setRevisionSetDocumentName(
-          revisionSetDocuments.map((doc) => doc.original_filename).join(", ")
-        );
         setRevisionSetDocumentContent(
           revisionSetDocuments
             .map(
